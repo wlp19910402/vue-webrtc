@@ -1,0 +1,197 @@
+$themes:(
+  light:(
+    error: #FA5D65,//错误
+    info: #6B778D,//信息
+    success: #53E36E, //成功
+    warning: #FB8C00, //警告
+    // linear_bg_1:linear-gradient(-30deg,
+    //   rgba(236,231,244,1)  0%,
+    //   rgba(236,236,255,1) 50%,
+    //   rgba(235,239,247,1) 100%), //全局大背景色
+    linear_bg_1:linear-gradient(-30deg,
+    #E4EBFF 0%,
+    #E4EBFF 100%),
+    linear_bg_2:linear-gradient(-30deg,
+    #E4EBFF 0%,
+    #E4EBFF 100%),
+    linear_bg_4:linear-gradient(-30deg,
+    #E4EBFF 0%,
+    #E4EBFF 100%),
+    // linear_bg_2:linear-gradient(160deg,rgba(223,214,242,1)  0%,rgba(206,187,251,1) 30%,rgba(108,214,255,1) 75%, rgba(133,246,255,1) 100%), //背景大渐变球
+    linear_bg_3:linear-gradient(-45deg,
+          rgba(193,171,255,1)  0%,
+          rgba(122,139,255,1) 100%),//首页菜单栏卡片button渐变、hover菜单icon渐变框，用户卡片背景渐变，日历当天标注，后台首页桌面图标渐变
+    circle_bg:rgba(255,255,255,0.2), //背景小球
+    // board_bg_1:rgba(255,255,255,0.2), //适用于全局版心背景框，后台呼出顶部栏半透明背景/应用缩略窗口背景框
+    board_bg_1:#F9FAFE,
+    board_bg_2:rgba(255,255,255,0.5), //适用于门户广场个人页-关注点赞收藏足迹的版心大背景，系统消息页弹窗大背景，后台呼出顶部栏右侧home背景框
+    board_bg_3:rgba(255,255,255,0.8), //适用于门户广场个人页-关注点赞收藏足迹的版心大背景，系统消息页弹窗大背景，后台呼出顶部栏右侧home背景框
+    card_bg_1:#FFFFFF,//首页菜单栏卡片，大组件卡片，云盘组件内小卡片，用户中心填写卡片，全局弹窗卡片，应用管理列表卡片，右下角热区卡片，门户列表新建未编辑卡片，门户设置大背景，门户预览页大背景，门户关注人页卡片，关注人页项目展开背景快，足迹项目展开背景快
+    card_bg_2:rgba(255,255,255,0.3),//云盘组件卡片背景
+    font_primary_1:#3B414E, //1级字体色，适用于首页除用户签名外所有文字，系统消息页所有文字，欢迎页编辑和返回，用户中心卡片内文字，所有弹窗文字，应用列表应用名字，应用管理卡片文字，应用详情文字，后台热区应用名字，所有hover气泡文字，门户列表页所有文字，门户广场文字，门户预览页文字，所有缺省页文字，关注人页文字，收藏点赞页瀑布流文字，足迹页名称文字和时间文字
+    font_primary_2:#6B778D, //2级字体色，适用于首页用户签名，全局输入框内默认提示文字，全局搜索框内提示文字
+    icon_primary_1:#AFB9CB, //适用于首页所有icon，首页卡片天气icon，应用搜索icon，门户页所有系统层级icon，门户广场搜索icon，关注人页收起展icon，足迹页清空icon，右下角热区icon（除关闭icon外），全局新建icon
+    icon_primary_1_hover:#A7A0FF,//icon hover颜色
+    icon_primary_2:#6B778D, //适用于门户广场图片下方的爱心和预览icon颜色，预览页收藏点赞链接颜色，全局弹出新窗口的关闭按钮颜色，门户广场个人页-侧边导航栏（关注点赞收藏足迹icon颜色）
+    icon_primary_2_hover:#FFFFFF,//icon hover反白颜色
+    primary_1:#A7A0FF, // 主题色紫色，适用于消息提醒圆点，首页菜单hover时的文字和icon，消息页系统消息icon，用户信息输入框选中颜色，用户卡片页滚动条选中，用户卡片展开收起按钮，全局提交、确认按钮，用户卡片左侧对应正在输入框背景样式、性别选中，足迹页展开收起，门户广场关注点赞收藏足迹icon hover框，后台当前应用窗口边框，后台退出icon，关注人页关注button及hover卡片边框，门户预览页关注加号颜色
+    primary_2:#FFFFFF, //白色，全局模块类的背景（如系统消息区块),全局icon圆圈，全局描边边框，全局提示气泡框，全局涉及到hover反白的地方，用户卡片版心
+    color_1:#AFB9CB,//1辅助色，全局输入框边框、搜素框，门户列表页的线条和滚动条
+    color_2:#F4F5F8,//2辅助色，首页菜单卡片头像边框，用户卡信息模块框(如职位名称入职时间等信息），用户中心卡片滚动点，门户里滚动条
+    color_3:#53E36E,//3辅助色绿色，适用于应用管理里列表打开button，应用列表设置排序删除完成对号，关注人页已关注button及hover卡片边框，门户项目new提示标注
+    color_4:#ffffff,//4辅助色
+    btn_primary_1:#A7A0FF,//紫色，全局确认/提交，查看详情hover，获取button，足迹弹窗button hover
+    btn_primary_2:#F4F5F8 ,//全局重置，查看详情默认
+    shadow_board: 0 60px 50px 0px rgba(138,138,138,0.1), // 适用于全局版心背景框
+    shadow_card_1: 0 10px 40px 0px rgba(153,148,178,0.1), //菜单栏卡片hover投影，应用管理列表页图标角标投影，后台呼出顶部栏投影
+    shadow_card_2: 0 10px 40px 0px rgba(153,148,178,0.1), // 适用于首页卡片投影，用户中心卡片投影，门户列表页投影，关注人页卡片投影，关注人页hover项目卡片投影
+    shadow_card_inset_1:0 0 0px 2px rgba(193,171,255,0.6) inset, //输入框active时候 ，个人用户信息模块的输入框
+    shadow_icon_1: 0 10px 15px 0px rgba(120,120,120,0.1), // 适用于app卡片图标投影
+    shadow_icon_2: 0 15px 20px 0px rgba(170,170,170,0.1), // 适用于系统层级icon（如消息、返回、关闭，门户列表hover图标，新建图标） 应用列表删除icon，后台退出应用icon，后台增加窗口icon，右下角热区hover图标时投影，后台应用窗口模块投影，用户中心收起展开卡片icon投影，消息页系统消息图标投影
+    shadow_icon_3: 0 15px 20px 0px rgba(170,170,170,0.1), // 右下角热区hover图标时投影
+  ),
+  dark:(
+    error: #FA5D65,//错误
+    info: #F3F3F3,//信息
+    success: #53E36E, //成功
+    warning: #FB8C00, //警告
+    linear_bg_1:linear-gradient(-30deg,
+    #1B202A 0%,
+    #1B202A 100%),
+    linear_bg_2:none, 
+    linear_bg_3:linear-gradient(
+          -45deg,
+          rgba(125,107,246,1)  0%,
+          rgba(70,108,255,1) 100%),
+    circle_bg:transparent,
+    board_bg_1:rgba(48,53,65,0.2), 
+    board_bg_2:rgba(48,53,65,0.5), 
+    board_bg_3:rgba(48,53,65,0.8), 
+    card_bg_1:#303541,
+    card_bg_2:rgba(48,53,65,0.3),
+    font_primary_1:#F3F3F3, 
+    font_primary_2:#B1B1B1, 
+    icon_primary_1:#F3F3F3, 
+    icon_primary_1_hover:#7D6BF6,
+    icon_primary_2:#F3F3F3, 
+    icon_primary_2_hover:#FFFFFF,
+    primary_1:#7D6BF6, 
+    primary_2:#303541,   
+    color_1:#4B515A,
+    color_2:#4B515A,
+    color_3:#53E36E,
+    color_4:#4B515A,
+    btn_primary_1:#7D6BF6,
+    btn_primary_2:#4B515A,
+    shadow_board: none, 
+    shadow_card_1: 0 10px 40px 0px rgba(0,0,0,0.2), 
+    shadow_card_2: none,
+    shadow_card_inset_1:0 0 0px 2px rgba(125,107,246,1) inset,
+    shadow_icon_1: none, 
+    shadow_icon_2: none,
+    shadow_icon_3: 0 15px 20px 0px rgba(0,0,0,0.4),
+  ),
+)
+
+// $themes:(
+//   light:(
+//     error: #FA5D65,//错误
+//     info: #6B778D,//信息
+//     success: #53E36E, //成功
+//     warning: #FB8C00, //警告
+//     linear_bg_1:linear-gradient(-30deg,
+//       rgba(236,231,244,1)  0%,
+//       rgba(236,236,255,1) 50%,
+//       rgba(235,239,247,1) 100%), //全局大背景色
+//     linear_bg_2:linear-gradient(160deg,rgba(223,214,242,1)  0%,rgba(206,187,251,1) 30%,rgba(108,214,255,1) 75%, rgba(133,246,255,1) 100%), //背景大渐变球
+//     linear_bg_3:linear-gradient(-45deg,
+//           rgba(193,171,255,1)  0%,
+//           rgba(122,139,255,1) 100%),//首页菜单栏卡片button渐变、hover菜单icon渐变框，用户卡片背景渐变，日历当天标注，后台首页桌面图标渐变
+//     circle_bg:rgba(255,255,255,0.2), //背景小球
+//     board_bg_1:rgba(255,255,255,0.2), //适用于全局版心背景框，后台呼出顶部栏半透明背景/应用缩略窗口背景框
+//     board_bg_2:rgba(255,255,255,0.5), //适用于门户广场个人页-关注点赞收藏足迹的版心大背景，系统消息页弹窗大背景，后台呼出顶部栏右侧home背景框
+//     card_bg_1:#FFFFFF,//首页菜单栏卡片，大组件卡片，云盘组件内小卡片，用户中心填写卡片，全局弹窗卡片，应用管理列表卡片，右下角热区卡片，门户列表新建未编辑卡片，门户设置大背景，门户预览页大背景，门户关注人页卡片，关注人页项目展开背景快，足迹项目展开背景快
+//     card_bg_2:rgba(255,255,255,0.3),//云盘组件卡片背景
+//     font_primary_1:#6B778D, //1级字体色，适用于首页除用户签名外所有文字，系统消息页所有文字，欢迎页编辑和返回，用户中心卡片内文字，所有弹窗文字，应用列表应用名字，应用管理卡片文字，应用详情文字，后台热区应用名字，所有hover气泡文字，门户列表页所有文字，门户广场文字，门户预览页文字，所有缺省页文字，关注人页文字，收藏点赞页瀑布流文字，足迹页名称文字和时间文字，锁屏用户名文字、提示文字，
+//     font_primary_2:#AFB9CB, //2级字体色，适用于首页用户签名，全局输入框内默认提示文字，全局搜索框内提示文字，锁屏忘记密码文字，
+//     icon_primary_1:#AFB9CB, //适用于首页所有icon，首页卡片天气icon，应用搜索icon，门户页所有系统层级icon，门户广场搜索icon，关注人页收起展icon，足迹页清空icon，右下角热区icon（除关闭icon外），全局新建icon
+//     icon_primary_1_hover:#A7A0FF,//icon hover颜色
+//     icon_primary_2:#6B778D, //适用于门户广场图片下方的爱心和预览icon颜色，预览页收藏点赞链接颜色，全局弹出新窗口的关闭按钮颜色，门户广场个人页-侧边导航栏（关注点赞收藏足迹icon颜色）
+//     icon_primary_2_hover:#FFFFFF,//icon hover反白颜色
+//     primary_1:#A7A0FF, //主题色紫色，适用于消息提醒圆点，首页菜单hover时的文字和icon，消息页系统消息icon，用户信息输入框选中颜色，用户卡片页滚动条选中，用户卡片展开收起按钮，全局提交、确认按钮，用户卡片左侧对应正在输入框背景样式、性别选中，足迹页展开收起，门户广场关注点赞收藏足迹icon hover框，后台当前应用窗口边框，后台退出icon，关注人页关注button及hover卡片边框，门户预览页关注加号颜色
+//     primary_2:#FFFFFF, //白色，全局模块类的背景（如系统消息区块),全局icon圆圈，全局描边边框，全局提示气泡框，全局涉及到hover反白的地方，用户卡片版心
+//     color_1:#AFB9CB,//1辅助色，全局输入框边框、搜素框，门户列表页的线条和滚动条
+//     color_2:#F4F5F8,//2辅助色，首页菜单卡片头像边框，用户卡信息模块框(如职位名称入职时间等信息），用户中心卡片滚动点，门户里滚动条
+//     color_3:#53E36E,//3辅助色绿色，适用于应用管理里列表打开button，应用列表设置排序删除完成对号，关注人页已关注button及hover卡片边框，门户项目new提示标注，底部工具栏刷新icon颜色
+//     color_4:#ffffff,//4辅助色
+//     btn_primary_1:#A7A0FF,//紫色，全局确认/提交，查看详情hover，获取button，足迹弹窗button hover
+//     btn_primary_2:#F4F5F8 ,//全局重置，查看详情默认
+//     shadow_board: 0 60px 50px 0px rgba(138,138,138,0.1), // 适用于全局版心背景框
+//     shadow_card_1: 0 10px 40px 0px rgba(153,148,178,0.1), //菜单栏卡片hover投影，应用管理列表页图标角标投影，后台呼出顶部栏投影，锁屏输入框投影，
+//     shadow_card_2: 0 10px 40px 0px rgba(153,148,178,0.1), // 适用于首页卡片投影，用户中心卡片投影，门户列表页投影，关注人页卡片投影，关注人页hover项目卡片投影
+//     shadow_card_inset_1:0 0 0px 2px rgba(193,171,255,0.6) inset, //输入框active时候 ，个人用户信息模块的输入框
+//     shadow_icon_1: 0 10px 15px 0px rgba(120,120,120,0.1), // 适用于app卡片图标投影
+//     shadow_icon_2: 0 15px 20px 0px rgba(170,170,170,0.1), // 适用于系统层级icon（如消息、返回、关闭，门户列表hover图标，新建图标） 应用列表删除icon，后台退出应用icon，后台增加窗口icon，右下角热区hover图标时投影，后台应用窗口模块投影，用户中心收起展开卡片icon投影，消息页系统消息图标投影
+//     shadow_icon_3: 0 15px 20px 0px rgba(170,170,170,0.1), // 右下角热区hover图标时投影
+//     // ----------------------底部工具栏样式----------------------
+//     font_primary_1:#6B778D, //1级字体色，工具栏文字，
+//     icon_primary_1:#AFB9CB, //底部工具栏icon
+//     icon_primary_1_hover:#A7A0FF,//主题色，icon hover颜色
+//     board_bg_3:rgba(255,255,255,0.8), //工具栏框，分屏呼出应用框（背景模糊均为8）
+//     primary_2:#FFFFFF, //白色，icon底框颜色，工具栏框描边，锁屏输入框颜色
+//     shadow_swiper_1:0 -2px 10px 0px rgba(167,160,255,0.6), // 应用滚动条阴影
+//     shadow_icon_1: 0 10px 15px 0px rgba(120,120,120,0.1), //工具栏icon投影，应用图标投影
+//     primary_1:#A7A0FF, //主题色紫色，工具栏应用滚动条，
+//     color_2:#F4F5F8,//2辅助色，工具栏分区竖线，分屏呼出框滚动条颜色
+//   ),
+//   dark:(
+//     error: #FA5D65,//错误
+//     info: #F3F3F3,//信息
+//     success: #53E36E, //成功
+//     warning: #FB8C00, //警告
+//     linear_bg_1:linear-gradient(-30deg,
+//     #1B202A 0%,
+//     #1B202A 100%),
+//     linear_bg_2:none, 
+//     linear_bg_3:linear-gradient(
+//           -45deg,
+//           rgba(125,107,246,1)  0%,
+//           rgba(70,108,255,1) 100%),
+//     circle_bg:transparent,
+//     board_bg_1:rgba(48,53,65,0.2), 
+//     board_bg_2:rgba(48,53,65,0.5), 
+//     card_bg_1:#303541,
+//     card_bg_2:rgba(48,53,65,0.3),
+//     font_primary_1:#F3F3F3, 
+//     font_primary_2:#B1B1B1, 
+//     icon_primary_1:#F3F3F3, 
+//     icon_primary_1_hover:#7D6BF6,
+//     icon_primary_2:#F3F3F3, 
+//     icon_primary_2_hover:#FFFFFF,
+//     primary_1:#7D6BF6, 
+//     primary_2:#303541,   
+//     color_1:#4B515A,
+//     color_2:#4B515A,
+//     color_3:#53E36E,
+//     color_4:#4B515A,
+//     btn_primary_1:#7D6BF6,
+//     btn_primary_2:#4B515A,
+//     shadow_board: none, 
+//     shadow_card_1: 0 10px 40px 0px rgba(0,0,0,0.2), 
+//     shadow_card_2: none,
+//     shadow_card_inset_1:0 0 0px 2px rgba(125,107,246,1) inset,
+//     shadow_icon_1: none, 
+//     shadow_icon_2: none,
+//     shadow_icon_3: 0 15px 20px 0px rgba(0,0,0,0.4),
+//     // ----------------------底部工具栏样式----------------------
+//     font_primary_1:#F3F3F3, 
+//     icon_primary_1:#F3F3F3, 
+//     icon_primary_1_hover: #7D6BF6,
+//     board_bg_3:rgba(18,19,23,0.8), 
+//     primary_2:#303541, 
+//     shadow_swiper_1:0 -2px 10px 0px rgba(125,107,246,0.6), 
+//     shadow_icon_1: none,
+//     primary_1:#7D6BF6, 
+//     color_2:#4B515A,
+//   ),
+// )

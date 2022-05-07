@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "esnext",// 目标语言的版本
+    "useDefineForClassFields": true,
+    "module": "esnext",// 指定生成代码的模板标准
+    "moduleResolution": "node",// node模块解析
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "suppressImplicitAnyIndexErrors": true,  // 上找不到“any”类型参数的索引签名
+    "baseUrl": ".", // 解析非相对模块的基地址，默认是当前目录, 防止引入文件报错
+    "paths": {  // 路径映射，相对于baseUrl
+        "@/*":["src/*"]
+    },
+    "skipLibCheck":true,//跳过typescript对第三方依赖的类型检查
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/plugins/momentDateTime.ts", "../axios copy.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

@@ -1,0 +1,525 @@
+@import "@/assets/scss/_handle.scss";
+@import "@/assets/scss/element-reset.scss";
+* {
+  box-sizing: border-box;
+  // transition: background-color 0.3s, color 0.3s,border-color 0.3s,box-shadow 0.3s,background-image 0.3s;
+  transition: all 0.3s;
+  text-decoration: none;
+  font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  // animation-name:'' !important;
+  // -webkit-font-smoothing: antialiased;
+  // -webkit-text-size-adjust: 100%;
+}
+[v-cloak] {
+  display: none;
+}
+.qm-relative {
+  position: relative;
+}
+input {
+  outline: none;
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+.text-hide {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qm-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(6px);
+  z-index: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.qm-iframe-dialog-transparent {
+  background: transparent !important;
+}
+.qm-mask.iframe {
+  z-index: 602;
+}
+body {
+  @include key_value("color", "font_primary_1");
+  @include key_value("background-color", "primary_2");
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mr-auto {
+  margin-right: auto;
+}
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.mt-auto {
+  margin-top: auto;
+}
+.mb-auto {
+  margin-bottom: auto;
+}
+@for $i from 1 through 40 {
+  .ma-#{$i} {
+    margin: ($i * 2) + px;
+  }
+  .ma-n#{si} {
+    margin: -($i * 2) + px;
+  }
+  .ml-#{$i} {
+    margin-left: ($i * 2) + px;
+  }
+  .ml-n#{si} {
+    margin-left: -($i * 2) + px;
+  }
+  .mr-#{$i} {
+    margin-right: ($i * 2) + px;
+  }
+  .mr-n#{si} {
+    margin-right: -($i * 2) + px;
+  }
+  .mt-#{$i} {
+    margin-top: ($i * 2) + px;
+  }
+  .mt-n#{si} {
+    margin-top: -($i * 2) + px;
+  }
+  .mb-#{$i} {
+    margin-bottom: ($i * 2) + px;
+  }
+  .mb-n#{si} {
+    margin-bottom: -($i * 2) + px;
+  }
+  .mx-#{$i} {
+    margin-left: ($i * 2) + px;
+    margin-right: ($i * 2) + px;
+  }
+  .mx-n#{si} {
+    margin-top: -($i * 2) + px;
+    margin-right: -($i * 2) + px;
+  }
+  .my-#{$i} {
+    margin-top: ($i * 2) + px;
+    margin-bottom: ($i * 2) + px;
+  }
+  .my-n#{si} {
+    margin-top: -($i * 2) + px;
+    margin-bottom: -($i * 2) + px;
+  }
+  .pa-#{$i} {
+    padding: ($i * 2) + px;
+  }
+  .pa-n#{si} {
+    padding: -($i * 2) + px;
+  }
+  .pl-#{$i} {
+    padding-left: ($i * 2) + px;
+  }
+  .pl-n#{si} {
+    padding-left: -($i * 2) + px;
+  }
+  .pr-#{$i} {
+    padding-right: ($i * 2) + px;
+  }
+  .pr-n#{si} {
+    padding-right: -($i * 2) + px;
+  }
+  .pt-#{$i} {
+    padding-top: ($i * 2) + px;
+  }
+  .pt-n#{si} {
+    padding-top: -($i * 2) + px;
+  }
+  .pb-#{$i} {
+    padding-bottom: ($i * 2) + px;
+  }
+  .pb-n#{si} {
+    padding-bottom: -($i * 2) + px;
+  }
+  .px-#{$i} {
+    padding-left: ($i * 2) + px;
+    padding-right: ($i * 2) + px;
+  }
+  .px-n#{si} {
+    padding-top: -($i * 2) + px;
+    padding-right: -($i * 2) + px;
+  }
+  .py-#{$i} {
+    padding-top: ($i * 2) + px;
+    padding-bottom: ($i * 2) + px;
+  }
+  .py-n#{si} {
+    padding-top: -($i * 2) + px;
+    padding-bottom: -($i * 2) + px;
+  }
+}
+
+.d-flex {
+  display: flex;
+}
+
+.d-inline-flex {
+  display: inline-flex;
+}
+
+.float-none {
+  float: none;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+.flex-column-reverse {
+  flex-direction: column-reverse;
+}
+
+.flex-grow-0 {
+  flex-grow: 0;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.flex-shrink-1 {
+  flex-shrink: 1;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.justify-space-around {
+  justify-content: space-around;
+}
+
+.align-start {
+  align-items: flex-start;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-baseline {
+  align-items: baseline;
+}
+
+.align-stretch {
+  align-items: stretch;
+}
+
+.align-content-start {
+  align-content: flex-start;
+}
+
+.align-content-end {
+  align-content: flex-end;
+}
+
+.align-content-center {
+  align-content: center;
+}
+
+.align-content-space-between {
+  align-content: space-between;
+}
+
+.align-content-space-around {
+  align-content: space-around;
+}
+
+.align-content-stretch {
+  align-content: stretch;
+}
+
+.align-self-auto {
+  align-self: auto;
+}
+
+.align-self-start {
+  align-self: flex-start;
+}
+
+.align-self-end {
+  align-self: flex-end;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.align-self-baseline {
+  align-self: baseline;
+}
+
+.align-self-stretch {
+  align-self: stretch;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.text-start {
+  text-align: start;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.text-decoration-line-through {
+  text-decoration: line-through;
+}
+
+.text-decoration-none {
+  text-decoration: none;
+}
+
+.text-decoration-overline {
+  text-decoration: overline;
+}
+
+.text-decoration-underline {
+  text-decoration: underline;
+}
+
+.text-wrap {
+  white-space: normal;
+}
+
+.text-no-wrap {
+  white-space: nowrap;
+}
+
+.text-pre {
+  white-space: pre;
+}
+
+.text-pre-line {
+  white-space: pre-line;
+}
+
+.text-pre-wrap {
+  white-space: pre-wrap;
+}
+
+.text-break {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.text-high-emphasis {
+  opacity: var(--v-high-emphasis-opacity);
+}
+
+.text-medium-emphasis {
+  opacity: var(--v-medium-emphasis-opacity);
+}
+
+.text-disabled {
+  opacity: var(--v-disabled-opacity);
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-none {
+  text-transform: none;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-h1 {
+  font-size: 6rem;
+  font-weight: 300;
+  line-height: 6rem;
+  letter-spacing: -0.015625em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-h2 {
+  font-size: 3.75rem;
+  font-weight: 300;
+  line-height: 3.75rem;
+  letter-spacing: -0.0083333333em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-h3 {
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 3.125rem;
+  letter-spacing: normal;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-h4 {
+  font-size: 2.125rem;
+  font-weight: 300;
+  line-height: 2.5rem;
+  letter-spacing: 0.0073529412em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-h5 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 2rem;
+  letter-spacing: normal;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-h6 {
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 2rem;
+  letter-spacing: 0.0125em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-subtitle-1 {
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.75rem;
+  letter-spacing: 0.009375em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-subtitle-2 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.375rem;
+  letter-spacing: 0.0071428571em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-body-1 {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  letter-spacing: 0.03125em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-body-2 {
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.25rem;
+  letter-spacing: 0.0178571429em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}
+
+.text-body-3 {
+  font-size: 0.725rem;
+  font-weight: 280;
+  line-height: 1.25rem;
+  letter-spacing: 0.0178571429em;
+  font-family: "Roboto", sans-serif;
+  text-transform: none;
+}

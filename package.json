@@ -1,0 +1,46 @@
+{
+  "name": "vite-vue3-ts-pinia",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "test": "vue-tsc --noEmit && vite build --mode test",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "autoprefixer": "^10.4.2",
+    "axios": "^0.25.0",
+    "element-plus": "^2.0.1",
+    "moment": "^2.29.1",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.0.11",
+    "screenfull": "^6.0.1",
+    "swiper": "^8.0.5",
+    "video.js": "^7.18.1",
+    "vite": "^2.8.4",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.12",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/video.js": "^7.3.36",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "node-sass": "^7.0.1",
+    "sass": "^1.49.7",
+    "sass-loader": "^12.4.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0",
+    "vue-tsc": "^0.31.4"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 3 versions",
+    "not ie <= 8",
+    "chrome >= 14",
+    "safari >= 3",
+    "ios >= 8",
+    "android >= 4.0"
+  ]
+}

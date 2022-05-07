@@ -1,0 +1,290 @@
+//修改成功提示框的样式
+.qm-el-message {
+  min-width: 154px !important;
+  height: 62px;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 40px 0 rgba(153, 148, 178, 0.16);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  @include key_value("background", "card_bg_1");
+  &::before {
+    content: "";
+    width: 6px;
+    height: 52px;
+    border-radius: 0 8px 8px 0;
+    right: -6px;
+    position: absolute;
+    z-index: -2;
+  }
+  .el-message__content {
+    font-size: 16px;
+    text-align: center;
+    min-width: 124px !important;
+    line-height: 62px;
+    border-radius: 8px !important;
+    overflow: hidden;
+    padding: 0 26px;
+    @include key_value("color", "font_primary_1");
+    position: relative;
+    width: 100%;
+    &::before {
+      position: absolute;
+      left: -29px;
+      top: 2px;
+      content: "";
+      display: block;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+    }
+  }
+  .el-message__icon {
+    position: absolute;
+    left: -15px;
+    width: 28px;
+    height: 28px;
+    padding: 12px;
+    z-index: 2;
+    border-radius: 50%;
+    color: transparent;
+    svg {
+      display: none;
+    }
+    &::before {
+      display: block;
+      position: absolute;
+      background-size: 20px 20px;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 20px;
+      height: 20px;
+    }
+  }
+  // 成功的提示框的颜色
+  &.el-message--success {
+    &::before {
+      background-image: linear-gradient(170deg, #a2ecbe, #73d299);
+    }
+    .el-message-icon--success {
+      background-image: linear-gradient(170deg, #a2ecbe, #73d299);
+      &::before {
+        content: "";
+        background-image: url("@/assets/images/success.svg");
+      }
+    }
+    .el-message__content {
+      &::before {
+        background: radial-gradient(
+          rgba(142, 255, 174, 0.4) 30%,
+          rgba(142, 255, 174, 0.4) 44%,
+          rgba(142, 255, 174, 0.1) 45%,
+          rgba(142, 255, 174, 0.1) 59%,
+          rgba(142, 255, 174, 0) 60%,
+          rgba(142, 255, 174, 0) 72%
+        );
+      }
+    }
+  }
+  // 警告提示框的颜色
+  &.el-message--warning {
+    &::before {
+      background-image: linear-gradient(170deg, rgba(255, 231, 150, 1), rgba(254, 83, 38, 1));
+    }
+    .el-message-icon--warning {
+      background-image: linear-gradient(170deg, rgba(255, 231, 150, 1), rgba(254, 83, 38, 1));
+      &::before {
+        content: "";
+        background-image: url("@/assets/images/warning.svg");
+      }
+    }
+    .el-message__content {
+      &::before {
+        background: radial-gradient(
+          rgba(254, 169, 103, 0.4) 30%,
+          rgba(254, 169, 103, 0.4) 44%,
+          rgba(254, 169, 103, 0.1) 45%,
+          rgba(254, 169, 103, 0.1) 59%,
+          rgba(254, 169, 103, 0) 60%,
+          rgba(254, 169, 103, 0) 72%
+        );
+      }
+    }
+  }
+  // 错误提示框的颜色
+  &.el-message--error {
+    &::before {
+      background-image: linear-gradient(170deg, rgba(255, 193, 161, 1), rgba(229, 90, 119, 1));
+    }
+    .el-message-icon--error {
+      background-image: linear-gradient(170deg, rgba(255, 193, 161, 1), rgba(229, 90, 119, 1));
+      &::before {
+        content: "";
+        background-image: url("@/assets/images/error.svg");
+      }
+    }
+    .el-message__content {
+      &::before {
+        background: radial-gradient(
+          rgba(237, 122, 132, 0.4) 30%,
+          rgba(237, 122, 132, 0.4) 44%,
+          rgba(237, 122, 132, 0.1) 45%,
+          rgba(237, 122, 132, 0.1) 59%,
+          rgba(237, 122, 132, 0) 60%,
+          rgba(237, 122, 132, 0) 72%
+        );
+      }
+    }
+  }
+}
+
+// 修改loading的内容
+:deep(.el-loading-spinner) {
+  background-image: url("@/assets/images/loading-null.gif") !important;
+  background-size: 80px 80px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 80px;
+  svg {
+    opacity: 0;
+  }
+}
+
+// 弹出框
+.el-dialog {
+  @include key_value("background-color", "card_bg_1");
+  @include key_value("color", "font_primary_1");
+  margin: 0 auto !important;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 16px !important;
+  .el-dialog__title {
+    @include key_value("color", "font_primary_1");
+  }
+  .el-dialog__body {
+    @include key_value("color", "font_primary_1");
+    padding: 10px 20px;
+  }
+  .el-dialog__footer {
+    padding: 10px 20px 16px;
+  }
+  .el-button {
+    border-radius: 7px;
+    font-weight: 400;
+    padding: 0 14px;
+    font-size: 14px;
+    @include key_value("border-color", "color_2");
+    &.el-button--default {
+      @include key_value("background-color", "card_bg_1");
+      @include key_value("color", "font_primary_1");
+      @include key_value("border-color", "color_2");
+      padding: 0 14px;
+      font-size: 14px;
+      border: none;
+    }
+    &.el-button--outline {
+      background-color: transparent;
+      @include key_value("color", "font_primary_1");
+      @include key_value("border-color", "color_1");
+      padding: 0 14px;
+      font-size: 14px;
+      border: none;
+    }
+    &.el-button--primary {
+      @include key_value("background-color", "btn_primary_1");
+      @include key_value("border-color", "color_2");
+      span {
+        color: #ffffff;
+      }
+      &:hover {
+        @include key_value("background-color", "btn_primary_1");
+        @include key_value("border-color", "color_2");
+        span {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
+// 按钮渐变色
+@mixin qm-btn-linear() {
+  color: #ffffff;
+  border: none;
+  @include key_value("background-image", "linear_bg_3");
+  &.el-button.el-button--default {
+    color: #ffffff;
+  }
+}
+
+.qm-btn-linear {
+  @include qm-btn-linear;
+}
+//成功的主题色
+@mixin qm-success() {
+  color: #ffffff;
+  border: none;
+  @include key_value("background-color", "success");
+  &.el-button.el-button--default {
+    color: #ffffff;
+  }
+}
+.qm-success {
+  @include qm-success;
+}
+// 按钮主题色
+@mixin qm-btn-primary() {
+  color: #ffffff;
+  border: none;
+  @include key_value("background-color", "btn_primary_1");
+  &.el-button.el-button--default {
+    color: #ffffff;
+  }
+}
+.qm-btn-primary {
+  @include qm-btn-primary;
+}
+// 默认按钮
+@mixin qm-btn-default() {
+  border: none;
+  @include key_value("color", "font_primary_2");
+  @include key_value("background", "card_bg_1");
+  &.el-button.el-button--default {
+    @include key_value("background", "card_bg_1");
+    @include key_value("color", "font_primary_2");
+  }
+}
+.qm-btn-default {
+  @include qm-btn-default;
+}
+// 描边按钮
+@mixin qm-btn-outline() {
+  @include key_value("color", "font_primary_1");
+  border-width: 1px;
+  border-style: solid;
+  @include key_value("border-color", "font_primary_1");
+  background: transparent;
+}
+.qm-btn-outline {
+  @include qm-btn-default;
+}
+
+//失效按钮
+@mixin qm-btn-primary-disable() {
+  background: #e1e4ef;
+  @include key_value("color", "font_primary_2");
+}
+.qm-btn-primary-disable {
+  @include qm-btn-primary-disable;
+}
+
+//下拉tooltip菜单
+.qm-dropdown-tooltip {
+  // width: 120px;
+  border: none !important;
+  background-color: transparent !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  border-radius: 6px;
+  
+  overflow: visible;
+}

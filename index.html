@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XR-SMART</title>
+</head>
+
+<body>
+  <script type="module" src="/src/main.ts"></script>
+  <!-- 搜狐的获取城市ip地址和城市名称 -->
+  <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+  <!-- 天气的图标 symbol-->
+  <script src="https://at.alicdn.com/t/font_3133024_j0srsvzj8t8.js"></script>
+  <!-- v.3 版本的教育 -->
+  <!-- <script src="https://at.alicdn.com/t/font_3351290_79as25rri25.js"></script> -->
+  <script type="text/javascript">
+    localStorage.setItem('ip', returnCitySN["cip"])
+    localStorage.setItem('area', returnCitySN["cname"])
+  </script>
+  <div id="app"></div>
+</body>
+
+</html>
