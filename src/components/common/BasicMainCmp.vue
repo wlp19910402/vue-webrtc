@@ -17,17 +17,17 @@ const scaleVaule = computed(() => {
 </script>
 
 <template>
-  <div
+  <!-- <div
     class="qm-scale-box"
     :style="{
       transform: `scale(${scaleVaule}) `,
     }"
   >
-    <div class="qm-basic-main-layouts-resize d-flex">
-      <div class="qm-mask desktop-app-mask"></div>
-      <slot></slot>
-    </div>
-  </div>
+    <div class="qm-basic-main-layouts-resize d-flex"> -->
+  <!-- <div class="qm-mask desktop-app-mask"></div> -->
+  <slot></slot>
+  <!-- </div>
+  </div> -->
 </template>
 
 <style lang="scss" scoped>

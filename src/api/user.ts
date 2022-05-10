@@ -56,3 +56,8 @@ export const serverSaveUserAvatar = async (
 export const serverLogin = async (options: TYPE_USER.LoginOptions) => {
   return await axios.post(API.USER_LOGIN, options);
 };
+
+//获取用户列表
+export const serverGetUserAllList = async () => {
+  return await axios.post(API.GET_USER_ALL_LIST, {});
+};

@@ -3,11 +3,31 @@
 
 // const WS_ADDRESS = 'ws://localhost:8000'
 
+/**
+ * 消息命令 (0:心跳  1:请求离线消息 其他随意)
+ */
+//  private Integer cmd;
+//  /**
+//   * 消息发送类型(0：发送个人  1：发送组  2：发送全部)
+//   */
+//  private Integer sendType;
+//  /**
+//   * 消息发送者id
+//   */
+//  private Long userId;
+//  /**
+//   * 消息接受者id或群聊id
+//   */
+//  private Long chatId;
+//  /**
+//   * 消息内容
+//   */
+//  private T message;
 // 发送消息记录 userId
 function useWebSocket(userId: string, handleMessage: (e: any) => void) {
   let token: any = localStorage.getItem("token");
   const ws = new WebSocket(
-    import.meta.env.VITE_APP_WS_NOTIFICATION_URL + "?userId=" + userId
+    import.meta.env.VITE_APP_WS_NOTIFICATION_URL + "/?userId=" + userId
   );
   // const ws = new WebSocket(
   //   import.meta.env.VITE_APP_WS_NOTIFICATION_URL + "?userId=" + userId,token
@@ -26,13 +46,14 @@ function useWebSocket(userId: string, handleMessage: (e: any) => void) {
     ws.send(
       JSON.stringify({
         cmd: 1,
-        sendType: 0,
+        sendType: 1,
         userId,
         chatId: userId,
         message: "",
       })
     );
   }
+
   function handleOpen(e: any) {
     // console.log("WebSocket open", e);
     setInterval(wsHeartbeat, 30000);

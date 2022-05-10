@@ -35,6 +35,8 @@ declare namespace TYPE_USER {
    */
   interface StoreUserinfoState {
     userBasic: UserBasicType;
+    userAllList: UserBasicType[];
+    currentCantUser: UserBasicType;
   }
   /**
    * StoreUserinfoGetters:定义getters类型
@@ -59,6 +61,7 @@ declare namespace TYPE_USER {
   interface StoreUserinfoActions {
     clear(): void;
     getUserBasicInfo(options: { callback?: TYPE_COMMON.Callback }): void;
+    getUserAllList(options: { callback?: TYPE_COMMON.Callback }): void;
     updateUserBasicInfo(options: {
       data: UserBasicType;
       callback?: TYPE_COMMON.Callback;

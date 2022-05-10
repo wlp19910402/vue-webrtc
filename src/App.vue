@@ -169,20 +169,9 @@ watch(
 
 <template>
   <div>
-    <el-config-provider :locale="locale">
-      <div class="qm-app-bg"></div>
-      <transition
-        enter-active-class="animate__animated animate__fadeIn"
-        leave-active-class="animate__animated animate__fadeOut"
-      >
-        <router-view v-if="isRouterAlive" v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" v-if="$route.meta.keepAlive" />
-          </keep-alive>
-          <component :is="Component" v-if="!$route.meta.keepAlive" />
-        </router-view>
-      </transition>
-    </el-config-provider>
+    <router-view v-if="isRouterAlive" v-slot="{ Component }">
+      <component :is="Component" v-if="!$route.meta.keepAlive" />
+    </router-view>
   </div>
 </template>
 

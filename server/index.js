@@ -1,89 +1,75 @@
-//@author :  bilibili:一只斌  /   mail: tuduweb@qq.com
-var express = require("express");
-var app = express();
-var http = require("http").createServer(app);
-var path = require("path");
-var fs = require("fs");
-let sslOptions = {
-  //     key: fs.readFileSync('C:/privkey.key'),//里面的文件替换成你生成的私钥
-  //     cert: fs.readFileSync('C:/cacert.pem')//里面的文件替换成你生成的证书
+var app = require("express")();
+var http = require("http").Server(app);
+var io = require("socket.io")(http, {
+  allowEIO3: true,
+  cors: {
+    origin: "http://localhost:30022",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
-  key: fs.readFileSync(
-    path.resolve(__dirname + "/certificate/ssl.key"),
-    "utf-8"
-  ),
-  cert: fs.readFileSync(
-    path.resolve(__dirname + "/certificate/ssl.crt"),
-    "utf-8"
-  ),
-};
+/* 接收在线人数，传给前端，保证在线人数是最新的 */
+var userList = [
+  {
+    name: "默认群聊",
+    img: "https://pic1.zhimg.com/50/v2-adfacac8307b48531d4e341a6090aa03_hd.jpg?source=1940ef5c",
+  },
+];
 
-const https = require("https").createServer(sslOptions, app);
+io.on("connection", function (socket) {
+  /* 监听用户登录事件,并将数据放到socket实例的属性上 */
+  socket.on("login", (data, callback) => {
+    /* 遍历服务器连接对象 */
+    var islogin = true;
+    io.sockets.sockets.forEach((iss) => {
+      if (iss.name == data.name) {
+        islogin = false;
+      }
+    });
+    if (islogin) {
+      // console.log('用户登录成功：',data);
+      userList.push(data);
+      socket.name = data.name;
+      callback(true);
+      io.emit("login", userList);
+    } else {
+      console.log("用户登录失败！：", data);
+      callback(false);
+    }
+  });
 
-var io = require("socket.io")(https);
+  /* 监听群聊事件 */
+  socket.on("groupChat", (data) => {
+    // 发送给所有客户端，除了发送者
+    /* 修改源数据的属性 */
+    data.type = "user";
+    socket.broadcast.emit("updateChatMessageList", data);
+  });
 
-var path = require("path");
-app.use(express.static(path.join(__dirname, "public")));
+  /* 监听私聊事件 */
+  socket.on("privateChat", (data) => {
+    /* 找到对应的私聊对象 */
+    io.sockets.sockets.forEach((iss) => {
+      if (iss.name == data.receiver) {
+        data.type = "user";
+        io.to(iss.id).emit("updateChatMessageList", data);
+      }
+    });
+  });
 
-// app.get("/", (req, res) => {
-//   res.sendFile(__dirname + "/index.html");
-// });
-
-// app.get("/camera", (req, res) => {
-//   res.sendFile(__dirname + "/camera.html");
-// });
-
-io.on("connection", (socket) => {
-  //连接加入子房间
-  socket.join(socket.id);
-
-  console.log("a user connected " + socket.id);
-
+  /* 用户掉线 */
   socket.on("disconnect", () => {
-    console.log("user disconnected: " + socket.id);
-    //某个用户断开连接的时候，我们需要告诉所有还在线的用户这个信息
-    socket.broadcast.emit("user disconnected", socket.id);
-  });
-
-  socket.on("chat message", (msg) => {
-    console.log(socket.id + " say: " + msg);
-    //io.emit("chat message", msg);
-    socket.broadcast.emit("chat message", msg);
-  });
-
-  //当有新用户加入，打招呼时，需要转发消息到所有在线用户。
-  socket.on("new user greet", (data) => {
-    console.log(data);
-    console.log(socket.id + " greet " + data.msg);
-    socket.broadcast.emit("need connect", { sender: socket.id, msg: data.msg });
-  });
-  //在线用户回应新用户消息的转发
-  socket.on("ok we connect", (data) => {
-    io.to(data.receiver).emit("ok we connect", { sender: data.sender });
-  });
-
-  //sdp 消息的转发
-  socket.on("sdp", (data) => {
-    console.log("sdp");
-    console.log(data.description);
-    //console.log('sdp:  ' + data.sender + '   to:' + data.to);
-    socket.to(data.to).emit("sdp", {
-      description: data.description,
-      sender: data.sender,
-    });
-  });
-
-  //candidates 消息的转发
-  socket.on("ice candidates", (data) => {
-    console.log("ice candidates:  ");
-    console.log(data);
-    socket.to(data.to).emit("ice candidates", {
-      candidate: data.candidate,
-      sender: data.sender,
-    });
+    /* 删除用户 */
+    let index = userList.findIndex((i) => i.name == socket.name);
+    if (index != -1) {
+      userList.splice(index, 1);
+      /* 通知前端 */
+      io.emit("login", userList);
+    }
   });
 });
 
-https.listen(443, () => {
-  console.log("https listening on *:443");
+http.listen(3000, function () {
+  console.log("listening on *:3000");
 });

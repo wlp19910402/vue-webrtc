@@ -5,6 +5,7 @@ import {
   serverGetUserInfo,
   serverSaveUserInfo,
   serverSaveUserAvatar,
+  serverGetUserAllList,
 } from "@/api/user";
 import { ElMessage } from "element-plus";
 import { defineStore } from "pinia";
@@ -29,6 +30,76 @@ export default defineStore<
       userWechat: "",
       hhxsUserDetail: {},
     },
+    userAllList: [],
+    currentCantUser: {},
+    chatList: [
+      {
+        hhxsUserId: 5,
+        dataList: [
+          {
+            nickName: "test_admin",
+            hhxsUserId: 5,
+            userAvatar:
+              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/5/20210915020350586_王娟.png",
+            msgType: "text",
+            msgContent: "你好,我是测试de 管理员",
+            msgTime: 1652168389579,
+          },
+          {
+            hhxsUserId: 10,
+            nickName: "王莉萍王莉萍王莉萍王",
+            userAvatar:
+              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/10/303395258359877截屏2022-04-06下午3.18.27.png",
+            msgType: "text",
+            msgContent:
+              "你好,我是测试的wwlp,你好,我是测试的wwlp你好,我是测试的wwlp你好,我是测试的wwlp你好,我是测试的wwlp",
+            msgTime: 1652168389579,
+          },
+          {
+            nickName: "test_admin",
+            hhxsUserId: 5,
+            userAvatar:
+              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/5/20210915020350586_王娟.png",
+            msgType: "text",
+            msgContent: "你好,我是测试de 管理员",
+            msgTime: 1652168389579,
+          },
+        ],
+      },
+      {
+        hhxsUserId: 10,
+        dataList: [
+          {
+            nickName: "test_admin",
+            hhxsUserId: 5,
+            userAvatar:
+              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/5/20210915020350586_王娟.png",
+            msgType: "text",
+            msgContent: "你好,我是测试de 管理员",
+            msgTime: 1652168389579,
+          },
+          {
+            hhxsUserId: 10,
+            nickName: "王莉萍王莉萍王莉萍王",
+            userAvatar:
+              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/10/303395258359877截屏2022-04-06下午3.18.27.png",
+            msgType: "text",
+            msgContent:
+              "你好,我是测试的wwlp,你好,我是测试的wwlp你好,我是测试的wwlp你好,我是测试的wwlp你好,我是测试的wwlp",
+            msgTime: 1652168389579,
+          },
+          {
+            nickName: "test_admin",
+            hhxsUserId: 5,
+            userAvatar:
+              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/5/20210915020350586_王娟.png",
+            msgType: "text",
+            msgContent: "测试把，开始",
+            msgTime: 1652168389579,
+          },
+        ],
+      },
+    ],
   }),
   getters: {
     isLogin(state: any) {
@@ -36,6 +107,12 @@ export default defineStore<
         state.userBasic.hhxsUserId !== undefined &&
         state.userBasic.hhxsUserId !== ""
       );
+    },
+    currentChat(state: any) {
+      const current = state.chatList.find(
+        (item: any) => item.hhxsUserId === state.currentCantUser.hhxsUserId
+      );
+      return current ? current.dataList : [];
     },
   },
   actions: {
@@ -55,6 +132,7 @@ export default defineStore<
         userWechat: "",
         hhxsUserDetail: {},
       };
+      this.userAllList = [];
     },
     // 获取用户信息
     getUserBasicInfo(options) {
@@ -75,6 +153,15 @@ export default defineStore<
               "hhxsUserId",
               this.userBasic.hhxsUserId.toString()
             );
+          if (options && options.callback) options.callback(res.data);
+        }
+      });
+    },
+    // 获取用户列表
+    getUserAllList(options) {
+      serverGetUserAllList().then((res) => {
+        if (res.data && res.data.code === 200) {
+          this.userAllList = res.data.data;
           if (options && options.callback) options.callback(res.data);
         }
       });

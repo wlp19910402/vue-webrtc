@@ -16,5 +16,6 @@ app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);
 app.mount("#app");
+
 // 路由拦截
 routerIntercept();
