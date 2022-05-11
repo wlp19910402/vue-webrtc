@@ -6,6 +6,7 @@ import myAside from "./components/myAside.vue";
 import myFooter from "./components/myFooter.vue";
 import myMain from "./components/myMain.vue";
 // var navigator: any;
+let navigator_dev: any = navigator;
 let useUserInfo: any = createStoreUserInfo();
 let hhxsUserId = localStorage.getItem("hhxsUserId");
 useUserInfo.getUserAllList();
@@ -269,35 +270,38 @@ function StartCall() {
       newVideo.controls = true;
       //newVideo.className = 'remote-video';
       newVideo.srcObject = str;
-
-      document.getElementById("videos").appendChild(newVideo);
+      let videosId: any = document.getElementById("videos");
+      videosId.appendChild(newVideo);
     }
   };
 }
 
 //封装一部分函数
 function getUserMedia(constrains: any, success: any, error: any) {
-  if (navigator.mediaDevices.getUserMedia) {
+  if (navigator_dev.mediaDevices.getUserMedia) {
     //最新标准API
-    navigator.mediaDevices.getUserMedia(constrains).then(success).catch(error);
-  } else if (navigator.webkitGetUserMedia) {
+    navigator_dev.mediaDevices
+      .getUserMedia(constrains)
+      .then(success)
+      .catch(error);
+  } else if (navigator_dev.webkitGetUserMedia) {
     //webkit内核浏览器
-    navigator.webkitGetUserMedia(constrains).then(success).catch(error);
-  } else if (navigator.mozGetUserMedia) {
+    navigator_dev.webkitGetUserMedia(constrains).then(success).catch(error);
+  } else if (navigator_dev.mozGetUserMedia) {
     //Firefox浏览器
-    navigator.mozGetUserMedia(constrains).then(success).catch(error);
-  } else if (navigator.getUserMedia) {
+    navigator_dev.mozGetUserMedia(constrains).then(success).catch(error);
+  } else if (navigator_dev.getUserMedia) {
     //旧版API
-    navigator.getUserMedia(constrains).then(success).catch(error);
+    navigator_dev.getUserMedia(constrains).then(success).catch(error);
   }
 }
 
 function canGetUserMediaUse() {
   return !!(
-    navigator.mediaDevices.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia
+    navigator_dev.mediaDevices.getUserMedia ||
+    navigator_dev.webkitGetUserMedia ||
+    navigator_dev.mozGetUserMedia ||
+    navigator_dev.msGetUserMedia
   );
 }
 let localStream: any = null;
