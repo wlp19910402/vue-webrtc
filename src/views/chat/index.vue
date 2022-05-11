@@ -5,7 +5,7 @@ import createStoreUserInfo from "@/store/userinfo";
 import myAside from "./components/myAside.vue";
 import myFooter from "./components/myFooter.vue";
 import myMain from "./components/myMain.vue";
-// var navigator: any;
+
 let navigator_dev: any = navigator;
 let useUserInfo: any = createStoreUserInfo();
 let hhxsUserId = localStorage.getItem("hhxsUserId");
@@ -242,10 +242,6 @@ function InitCamera() {
     alert("您的浏览器不兼容");
   }
 }
-
-// onMounted(() => {
-//   InitCamera();
-// });
 </script>
 
 <template>
