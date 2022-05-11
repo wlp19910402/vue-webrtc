@@ -78,7 +78,7 @@ export default ({ command, mode }) => {
       },
     },
     build: {
-      outDir: "ssc",
+      outDir: "social-contact",
       // 分块打包配置
       chunkSizeWarningLimit: 1500, // 分块打包，分解块，将大块分解成更小的块
       rollupOptions: {

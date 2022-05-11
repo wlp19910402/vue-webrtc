@@ -61,7 +61,7 @@ export default defineStore<
     },
     //获取主题色
     getTheme(options) {
-      serverGetTheme().then((res) => {
+      serverGetTheme().then((res:any) => {
         if (
           res.data.code === 200 &&
           res.data.data &&
@@ -75,7 +75,7 @@ export default defineStore<
     },
     //设置主题色
     setTheme(options) {
-      serverSetTheme({ hhxsThemeName: options.data }).then((res) => {
+      serverSetTheme({ hhxsThemeName: options.data }).then((res:any) => {
         if (res.data.code === 200) {
           this.themeStatus = res.data.data.hhxsThemeName;
           localStorage.setItem("themeStatus", res.data.data.hhxsThemeName);

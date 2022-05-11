@@ -2,7 +2,6 @@
 import { inject, onMounted, reactive, computed } from "vue";
 import { useWebSocket } from "@/utils/websocket";
 import createStoreUserInfo from "@/store/userinfo";
-import myAside from "./components/myAside";
 let useUserInfo = createStoreUserInfo();
 let hhxsUserId = localStorage.getItem("hhxsUserId");
 const obj = reactive({
@@ -14,7 +13,7 @@ const filterUserList = computed(() => {
       item.nickName.includes(obj.keyword) && item.hhxsUserId != hhxsUserId
   );
 });
-const setUserInfo = (res) => {
+const setUserInfo = (res: any) => {
   useUserInfo.currentCantUser = {
     hhxsUserId: res.hhxsUserId,
     nickName: res.nickName,
@@ -28,7 +27,7 @@ const setUserInfo = (res) => {
       <!-- 我的信息 -->
       <div class="myinfo">
         <el-avatar :src="useUserInfo.userBasic.userAvatar"></el-avatar>
-        <span>{{ useUserInfo.userBasic.nickName }}</span>
+        <span class="ml-4">{{ useUserInfo.userBasic.nickName }}</span>
       </div>
     </el-row>
     <!-- 搜索好友 -->

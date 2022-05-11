@@ -1,5 +1,10 @@
 //路由
-import { createRouter, RouteRecordRaw, createWebHashHistory } from "vue-router";
+import {
+  createRouter,
+  RouteRecordRaw,
+  createWebHashHistory,
+  createWebHistory,
+} from "vue-router";
 import basicMainLayout from "@/layouts/basicMainLayout.vue";
 const asyncRoutes: Array<RouteRecordRaw> = [
   {

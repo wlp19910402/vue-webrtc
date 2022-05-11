@@ -10,8 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-ssc
-ssc.zip
+social-contact
+social-contact.zip
 *.local
 .env.development
 .env.production

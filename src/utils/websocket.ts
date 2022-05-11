@@ -4,7 +4,7 @@
 // const WS_ADDRESS = 'ws://localhost:8000'
 
 /**
- * 消息命令 (0:心跳  1:请求离线消息 其他随意)
+ * 消息命令 (0:心跳  1:请求离线消息 其他随意 2是发消息，3是发视频)
  */
 //  private Integer cmd;
 //  /**
@@ -24,7 +24,7 @@
 //   */
 //  private T message;
 // 发送消息记录 userId
-function useWebSocket(userId: string, handleMessage: (e: any) => void) {
+function useWebSocket(userId: any, handleMessage: (e: any) => void) {
   let token: any = localStorage.getItem("token");
   const ws = new WebSocket(
     import.meta.env.VITE_APP_WS_NOTIFICATION_URL + "/?userId=" + userId

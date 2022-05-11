@@ -136,7 +136,7 @@ export default defineStore<
     },
     // 获取用户信息
     getUserBasicInfo(options) {
-      serverGetUserInfo().then((res) => {
+      serverGetUserInfo().then((res:any) => {
         if (res.data && res.data.code === 200) {
           let data = res.data.data;
           this.userBasic = {
@@ -159,7 +159,7 @@ export default defineStore<
     },
     // 获取用户列表
     getUserAllList(options) {
-      serverGetUserAllList().then((res) => {
+      serverGetUserAllList().then((res:any) => {
         if (res.data && res.data.code === 200) {
           this.userAllList = res.data.data;
           if (options && options.callback) options.callback(res.data);
@@ -168,7 +168,7 @@ export default defineStore<
     },
     //修改用户基本信息
     updateUserBasicInfo(options) {
-      serverSaveUserInfo(options.data).then((res) => {
+      serverSaveUserInfo(options.data).then((res:any) => {
         let data = res.data.data;
         this.userBasic = {
           ...this.userBasic,
@@ -187,7 +187,7 @@ export default defineStore<
     },
     //修改用户头像
     updateUserAvatar(options) {
-      serverSaveUserAvatar(options.data).then((res) => {
+      serverSaveUserAvatar(options.data).then((res:any) => {
         let data = res.data.data;
         this.userBasic = {
           ...this.userBasic,

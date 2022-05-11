@@ -16,6 +16,7 @@
         "@/*":["src/*"]
     },
     "skipLibCheck":true,//跳过typescript对第三方依赖的类型检查
+    "skipDefaultLibCheck":true,
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/plugins/momentDateTime.ts", "../axios copy.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

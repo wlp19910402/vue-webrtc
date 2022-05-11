@@ -9,12 +9,12 @@ import {
   nextTick,
 } from "vue";
 import createStoreUserInfo from "@/store/userinfo";
-import myAside from "./components/myAside";
+
 import moment from "moment";
-let useUserInfo = createStoreUserInfo();
-let hhxsUserId = localStorage.getItem("hhxsUserId");
+let useUserInfo: any = createStoreUserInfo();
+let hhxsUserId: any = localStorage.getItem("hhxsUserId");
 const msgBoxRef: any = ref(null);
-const obj = reactive({
+const obj: any = reactive({
   keyword: "",
 });
 const filterUserList = computed(() => {
@@ -23,7 +23,7 @@ const filterUserList = computed(() => {
       item.nickName.includes(obj.keyword) && item.hhxsUserId != hhxsUserId
   );
 });
-const setUserInfo = (res) => {
+const setUserInfo = (res: any) => {
   useUserInfo.currentCantUser = {
     hhxsUserId: res.hhxsUserId,
     nickName: res.nickName,
@@ -31,11 +31,9 @@ const setUserInfo = (res) => {
   };
 };
 watch(useUserInfo, () => {
-  console.log(msgBoxRef.value.scrollHeight);
   nextTick(() => {
     msgBoxRef.value.scrollTop = msgBoxRef.value.scrollHeight;
   });
-  // setTimeout(() => {}, 1000);
 });
 </script>
 <template>

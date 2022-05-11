@@ -5,11 +5,15 @@ import createStoreUserInfo from "@/store/userinfo";
 import myAside from "./components/myAside.vue";
 import myFooter from "./components/myFooter.vue";
 import myMain from "./components/myMain.vue";
-let useUserInfo = createStoreUserInfo();
+let useUserInfo: any = createStoreUserInfo();
 let hhxsUserId = localStorage.getItem("hhxsUserId");
 useUserInfo.getUserAllList();
+let props = defineProps<{
+  StartCall: (payload: any) => void;
+}>();
 let msgInput = ref("");
-const ws = inject("ws");
+const ws: any = inject("ws");
+// 发送消息
 const handleSendMessage = () => {
   if (msgInput.value.trim() === "") return;
   let msg = {
@@ -30,8 +34,8 @@ const handleSendMessage = () => {
     })
   );
   msgInput.value = "";
-  const currchat = useUserInfo.chatList.find(
-    (item) => item.hhxsUserId === useUserInfo.currentCantUser.hhxsUserId
+  const currchat: any = useUserInfo.chatList.find(
+    (item: any) => item.hhxsUserId === useUserInfo.currentCantUser.hhxsUserId
   );
   if (currchat) {
     currchat.dataList.push(msg);
@@ -42,6 +46,10 @@ const handleSendMessage = () => {
     });
   }
 };
+
+// onMounted(() => {
+//   InitCamera();
+// });
 </script>
 <template>
   <div class="d-flex align-center justify-center mt-4">
@@ -62,6 +70,14 @@ const handleSendMessage = () => {
       @click="handleSendMessage"
     >
       发送</el-button
+    >
+    <el-button
+      class="ml-8"
+      :disabled="useUserInfo.currentCantUser.hhxsUserId === undefined"
+      color="green"
+      @click="StartCall"
+    >
+      通话</el-button
     >
   </div>
 </template>
