@@ -16,6 +16,9 @@ useUserInfo.getUserAllList();
 let localVideoElm: any = ref(null);
 const obj: any = reactive({
   pc: [],
+  isOpenCamera: false,
+  zoomCameraStatus: 1, //1是自己的视频放大，2是回答者的视频放大
+  answerVideo: [],
 });
 const handleMessage = (e: any) => {
   // 新消息插入
@@ -153,21 +156,43 @@ provide("ws", ws);
 // 通话
 
 //STUN,TURN服务器配置参数
+// const iceServer = {
+//   iceServers: [
+//     { urls: ["stun:ss-turn1.xirsys.com"] },
+//     {
+//       username:
+//         "CEqIDkX5f51sbm7-pXxJVXePoMk_WB7w2J5eu0Bd00YpiONHlLHrwSb7hRMDDrqGAAAAAF_OT9V0dWR1d2Vi",
+//       credential: "446118be-38a4-11eb-9ece-0242ac140004",
+//       urls: [
+//         "turn:ss-turn1.xirsys.com:80?transport=udp",
+//         "turn:ss-turn1.xirsys.com:3478?transport=udp",
+//       ],
+//     },
+//   ],
+// };
+
+// websocket测试地址："wss://testxr.piesat.cn/wss?userId={userId}"
+// webRTC 打洞服务器测试地址：
+// turn地址："turn:114.116.230.100:8879"
+// username："sl"
+// password："sl@hhxs.com"
+// stun地址："stun:114.116.230.100:8879"
+
 const iceServer = {
   iceServers: [
-    { urls: ["stun:ss-turn1.xirsys.com"] },
+    { urls: ["stun:114.116.230.100:8879"] },
     {
-      username:
-        "CEqIDkX5f51sbm7-pXxJVXePoMk_WB7w2J5eu0Bd00YpiONHlLHrwSb7hRMDDrqGAAAAAF_OT9V0dWR1d2Vi",
-      credential: "446118be-38a4-11eb-9ece-0242ac140004",
-      urls: [
-        "turn:ss-turn1.xirsys.com:80?transport=udp",
-        "turn:ss-turn1.xirsys.com:3478?transport=udp",
-      ],
+      username: "sl",
+      credential: "sl@hhxs.com",
+      urls: ["turn:114.116.230.100:8879"],
     },
   ],
 };
 
+// function StartCall(userId: string, isOffer: boolean) {
+//   InitCamera();
+
+// }
 function StartCall() {
   const parterName: any = useUserInfo.currentCantUser.hhxsUserId;
   const createOffer = true;
@@ -257,23 +282,57 @@ function StartCall() {
   obj.pc[parterName].ontrack = (ev: any) => {
     console.log(ev);
     let str: any = ev.streams[0];
+    const curNameParter: any = obj.answerVideo.find(
+      (item: any) => item.userId === parterName
+    );
+    if (curNameParter) {
+      // let parterName_video: any = document.getElementById(
+      //   `${parterName}-video`
+      // );
+      // parterName_video.srcObject = str;
+      curNameParter.video = str;
 
-    if (document.getElementById(`${parterName}-video`)) {
-      let parterName_video: any = document.getElementById(
-        `${parterName}-video`
-      );
-      parterName_video.srcObject = str;
+      console.log(obj.answerVideo);
+      console.log("============");
     } else {
-      let newVideo: any = document.createElement("video");
-      newVideo.id = `${parterName}-video`;
-      newVideo.autoplay = true;
-      newVideo.controls = true;
-      //newVideo.className = 'remote-video';
-      newVideo.srcObject = str;
-      let videosId: any = document.getElementById("videos");
-      videosId.appendChild(newVideo);
+      obj.zoomCameraStatus = 2;
+      obj.answerVideo.push({ userId: parterName, video: str });
+      // console.log(obj.answerVideo);
+      // newVideo.autoplay = true;
+      // newVideo.controls = true;
+      // //newVideo.className = 'remote-video';
+      // newVideo.srcObject = str;
+      // obj.zoomCameraStatus = 2;
+      // let videosId: any = document.getElementById("videos");
+      // videosId.appendChild(newVideo);
     }
   };
+
+  // obj.pc[parterName].ontrack = (ev: any) => {
+  //   console.log(ev);
+  //   let str: any = ev.streams[0];
+
+  //   if (document.getElementById(`${parterName}-video`)) {
+  //     let parterName_video: any = document.getElementById(
+  //       `${parterName}-video`
+  //     );
+  //     parterName_video.srcObject = str;
+  //   } else {
+  //     obj.zoomCameraStatus = 2;
+  //     obj.answerVideo.push({ userId: parterName, video: str });
+
+  //     let newVideo: any = document.createElement("video");
+  //     newVideo.id = `${parterName}-video`;
+  //     newVideo.autoplay = true;
+  //     newVideo.controls = true;
+  //     //newVideo.className = 'remote-video';
+  //     newVideo.srcObject = str;
+  //     obj.zoomCameraStatus = 2;
+  //     obj.answerVideo.push(str);
+  //     let videosId: any = document.getElementById("videos");
+  //     videosId.appendChild(newVideo);
+  //   }
+  // };
 }
 
 //封装一部分函数
@@ -319,19 +378,21 @@ function InitCamera() {
         localVideoElm.value.srcObject = stream;
         // $(localVideoElm).width(800);
         localVideoElm.value.width = 800;
+        StartCall();
       },
       (err: any) => {
         console.log("访问用户媒体失败: ", err.name, err.message);
       }
     );
+    obj.isOpenCamera = true;
   } else {
     alert("您的浏览器不兼容");
   }
 }
 
-onMounted(() => {
-  InitCamera();
-});
+// onMounted(() => {
+//   InitCamera();
+// });
 </script>
 
 <template>
@@ -349,24 +410,98 @@ onMounted(() => {
         <my-main />
       </el-main>
       <el-footer>
-        <my-footer :StartCall="StartCall" />
+        <my-footer :StartCall="InitCamera" />
       </el-footer>
     </el-container>
   </el-container>
-  <video ref="localVideoElm" id="video-local" controls autoplay></video>
-
-  <div id="videos"></div>
-  <!-- <div class="qm-mian-card-box">
-    <input />
-    <button @click="handleSendMessage">发送</button>
+  <div
+    :class="[
+      'qm-video-box',
+      obj.isOpenCamera ? 'qm-video-box-active' : '',
+      obj.zoomCameraStatus === 1 ? 'qm-video-user-zoom' : '',
+    ]"
+  >
+    <video
+      @click="obj.zoomCameraStatus = 1"
+      class="qm-cur-user-video"
+      ref="localVideoElm"
+      autoplay
+    ></video>
+    <div class="qm-answerer-videos-box" id="videos">
+      <!-- obj.answerVideo.push({ userId: parterName, video: str }); -->
+      <video
+        @click="obj.zoomCameraStatus = 2"
+        v-for="item in obj.answerVideo"
+        :key="item.userId"
+        :srcObject="item.video"
+        autoplay
+      ></video>
+    </div>
   </div>
-
-  <div class="qm-mian-box">
-    <video id="video-local" controls autoplay></video>
-  </div> -->
 </template>
 
 <style lang="scss" scoped>
+.qm-video-box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: #222;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  &.qm-video-box-active {
+    width: 100%;
+    height: 100%;
+  }
+  &.qm-video-user-zoom {
+    .qm-cur-user-video {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 0;
+      border: none;
+    }
+    .qm-answerer-videos-box {
+      video {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 30px;
+        top: 30px;
+        z-index: 1;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+  .qm-cur-user-video {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 30px;
+    top: 30px;
+    z-index: 1;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+  }
+  .qm-answerer-videos-box {
+    video {
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 0;
+      position: absolute;
+      border: none;
+    }
+  }
+  video {
+    // object-fit: contain;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+}
 .el-header,
 .el-footer {
   background-color: #b3c0d1;
