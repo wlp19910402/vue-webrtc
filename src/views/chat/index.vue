@@ -212,9 +212,7 @@ function StartCall() {
         },
         function (stream: any) {
           localStream = stream;
-
           localVideoElm.value.srcObject = stream;
-          localVideoElm.value.width = 800;
         },
         function (error: any) {
           console.log("访问用户媒体设备失败：", error.name, error.message);
@@ -376,8 +374,7 @@ function InitCamera() {
       (stream: any) => {
         localStream = stream;
         localVideoElm.value.srcObject = stream;
-        // $(localVideoElm).width(800);
-        localVideoElm.value.width = 800;
+
         StartCall();
       },
       (err: any) => {
