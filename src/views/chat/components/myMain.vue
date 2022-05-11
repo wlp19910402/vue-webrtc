@@ -17,12 +17,6 @@ const msgBoxRef: any = ref(null);
 const obj: any = reactive({
   keyword: "",
 });
-const filterUserList = computed(() => {
-  return useUserInfo.userAllList.filter(
-    (item: any) =>
-      item.nickName.includes(obj.keyword) && item.hhxsUserId != hhxsUserId
-  );
-});
 const setUserInfo = (res: any) => {
   useUserInfo.currentCantUser = {
     hhxsUserId: res.hhxsUserId,

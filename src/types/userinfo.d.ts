@@ -37,6 +37,7 @@ declare namespace TYPE_USER {
     userBasic: UserBasicType;
     userAllList: UserBasicType[];
     currentCantUser: UserBasicType;
+    chatList: any[];
   }
   /**
    * StoreUserinfoGetters:定义getters类型

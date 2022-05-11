@@ -12,7 +12,6 @@ let hhxsUserId = localStorage.getItem("hhxsUserId");
 useUserInfo.getUserAllList();
 
 // 回调的值 接收新的通知数据，并处理
-
 let localVideoElm: any = ref(null);
 const obj: any = reactive({
   pc: [],
@@ -27,17 +26,21 @@ const handleMessage = (e: any) => {
     const currchat = useUserInfo.chatList.find(
       (item: any) => item.hhxsUserId == message.userId
     );
+    console.log("===========", currchat);
     if (currchat) {
       currchat.dataList.push(message.message);
     } else {
-      useUserInfo.chatList.push({
-        hhxsUserId: message.userId,
-        dataList: [message.message],
-      });
+      useUserInfo.chatList = [
+        ...useUserInfo.chatList,
+        {
+          hhxsUserId: message.userId,
+          dataList: [message.message],
+        },
+      ];
     }
+    console.log(useUserInfo.chatList);
   }
   // 如果是ice candidates的协商信息
-
   if (message.cmd === 4 && message.sendType === 0) {
     if (message.message.candidate) {
       var candidate = new RTCIceCandidate(message.message.candidate);
@@ -63,7 +66,7 @@ const handleMessage = (e: any) => {
             return obj.pc[message.userId].setLocalDescription(answer);
           })
           .then(() => {
-            //把发起者的描述信息通过Signal Server发送到接收者
+            // 把发起者的描述信息通过Signal Server发送到接收者
             ws.send(
               JSON.stringify({
                 cmd: 3,
@@ -76,7 +79,7 @@ const handleMessage = (e: any) => {
               })
             );
           })
-          .catch(); //catch error function empty
+          .catch();
       });
     } else if (message.message.description.type === "answer") {
       //如果使应答类消息（那么接收到这个事件的是呼叫者）
@@ -172,7 +175,6 @@ function StartCall() {
       })
     );
   };
-  console.log("2222");
   //当向连接中添加磁道时，track 事件的此处理程序由本地WebRTC层调用。例如，可以将传入媒体连接到元素以显示它。详见 Receiving new streams 。
   obj.pc[parterName].ontrack = (ev: any) => {
     console.log(ev);
@@ -277,7 +279,6 @@ function InitCamera() {
       autoplay
     ></video>
     <div class="qm-answerer-videos-box" id="videos">
-      <!-- obj.answerVideo.push({ userId: parterName, video: str }); -->
       <video
         @click="obj.zoomCameraStatus = 2"
         v-for="item in obj.answerVideo"
@@ -321,7 +322,8 @@ function InitCamera() {
         left: 30px;
         top: 30px;
         z-index: 1;
-        border: 2px solid rgba(255, 255, 255, 0.5);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        background: #222;
       }
     }
   }
@@ -332,7 +334,8 @@ function InitCamera() {
     left: 30px;
     top: 30px;
     z-index: 1;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: #222;
   }
   .qm-answerer-videos-box {
     video {

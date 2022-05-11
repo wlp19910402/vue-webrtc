@@ -32,74 +32,8 @@ export default defineStore<
     },
     userAllList: [],
     currentCantUser: {},
-    chatList: [
-      {
-        hhxsUserId: 5,
-        dataList: [
-          {
-            nickName: "test_admin",
-            hhxsUserId: 5,
-            userAvatar:
-              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/5/20210915020350586_王娟.png",
-            msgType: "text",
-            msgContent: "你好,我是测试de 管理员",
-            msgTime: 1652168389579,
-          },
-          {
-            hhxsUserId: 10,
-            nickName: "王莉萍王莉萍王莉萍王",
-            userAvatar:
-              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/10/303395258359877截屏2022-04-06下午3.18.27.png",
-            msgType: "text",
-            msgContent:
-              "你好,我是测试的wwlp,你好,我是测试的wwlp你好,我是测试的wwlp你好,我是测试的wwlp你好,我是测试的wwlp",
-            msgTime: 1652168389579,
-          },
-          {
-            nickName: "test_admin",
-            hhxsUserId: 5,
-            userAvatar:
-              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/5/20210915020350586_王娟.png",
-            msgType: "text",
-            msgContent: "你好,我是测试de 管理员",
-            msgTime: 1652168389579,
-          },
-        ],
-      },
-      {
-        hhxsUserId: 10,
-        dataList: [
-          {
-            nickName: "test_admin",
-            hhxsUserId: 5,
-            userAvatar:
-              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/5/20210915020350586_王娟.png",
-            msgType: "text",
-            msgContent: "你好,我是测试de 管理员",
-            msgTime: 1652168389579,
-          },
-          {
-            hhxsUserId: 10,
-            nickName: "王莉萍王莉萍王莉萍王",
-            userAvatar:
-              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/10/303395258359877截屏2022-04-06下午3.18.27.png",
-            msgType: "text",
-            msgContent:
-              "你好,我是测试的wwlp,你好,我是测试的wwlp你好,我是测试的wwlp你好,我是测试的wwlp你好,我是测试的wwlp",
-            msgTime: 1652168389579,
-          },
-          {
-            nickName: "test_admin",
-            hhxsUserId: 5,
-            userAvatar:
-              "https://vrar-obs-production.obs.cn-north-4.myhuaweicloud.com/ssc-develop/image/5/20210915020350586_王娟.png",
-            msgType: "text",
-            msgContent: "测试把，开始",
-            msgTime: 1652168389579,
-          },
-        ],
-      },
-    ],
+    chatList: [],
+    currentChat: [],
   }),
   getters: {
     isLogin(state: any) {
@@ -136,7 +70,7 @@ export default defineStore<
     },
     // 获取用户信息
     getUserBasicInfo(options) {
-      serverGetUserInfo().then((res:any) => {
+      serverGetUserInfo().then((res: any) => {
         if (res.data && res.data.code === 200) {
           let data = res.data.data;
           this.userBasic = {
@@ -159,16 +93,20 @@ export default defineStore<
     },
     // 获取用户列表
     getUserAllList(options) {
-      serverGetUserAllList().then((res:any) => {
+      serverGetUserAllList().then((res: any) => {
         if (res.data && res.data.code === 200) {
           this.userAllList = res.data.data;
+          this.chatList = res.data.data.map((item: any) => ({
+            hhxsUserId: item.hhxsUserId,
+            dataList: [],
+          }));
           if (options && options.callback) options.callback(res.data);
         }
       });
     },
     //修改用户基本信息
     updateUserBasicInfo(options) {
-      serverSaveUserInfo(options.data).then((res:any) => {
+      serverSaveUserInfo(options.data).then((res: any) => {
         let data = res.data.data;
         this.userBasic = {
           ...this.userBasic,
@@ -187,7 +125,7 @@ export default defineStore<
     },
     //修改用户头像
     updateUserAvatar(options) {
-      serverSaveUserAvatar(options.data).then((res:any) => {
+      serverSaveUserAvatar(options.data).then((res: any) => {
         let data = res.data.data;
         this.userBasic = {
           ...this.userBasic,
