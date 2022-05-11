@@ -26,7 +26,6 @@ const handleMessage = (e: any) => {
     const currchat = useUserInfo.chatList.find(
       (item: any) => item.hhxsUserId == message.userId
     );
-    console.log("===========", currchat);
     if (currchat) {
       currchat.dataList.push(message.message);
     } else {
@@ -38,14 +37,12 @@ const handleMessage = (e: any) => {
         },
       ];
     }
-    console.log(useUserInfo.chatList);
   }
   // 如果是ice candidates的协商信息
   if (message.cmd === 4 && message.sendType === 0) {
     if (message.message.candidate) {
       var candidate = new RTCIceCandidate(message.message.candidate);
       //讲对方发来的协商信息保存
-      console.log(obj.pc, obj.pc[message.userId]);
       obj.pc[message.userId].addIceCandidate(candidate).catch(); //catch err function empty
     }
   }
@@ -177,7 +174,6 @@ function StartCall() {
   };
   //当向连接中添加磁道时，track 事件的此处理程序由本地WebRTC层调用。例如，可以将传入媒体连接到元素以显示它。详见 Receiving new streams 。
   obj.pc[parterName].ontrack = (ev: any) => {
-    console.log(ev);
     let str: any = ev.streams[0];
     const curNameParter: any = obj.answerVideo.find(
       (item: any) => item.userId === parterName
@@ -232,7 +228,6 @@ function InitCamera() {
       (stream: any) => {
         localStream = stream;
         localVideoElm.value.srcObject = stream;
-
         StartCall();
       },
       (err: any) => {
