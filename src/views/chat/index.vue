@@ -63,26 +63,12 @@ const handleMessage = (e: any) => {
             return obj.pc[message.userId].setLocalDescription(answer);
           })
           .then(() => {
-            //  //把发起者的描述信息通过Signal Server发送到接收者
-            //             socket.emit('sdp', {
-            //                 type: 'video-offer',
-            //                 description: pc[parterName].localDescription,
-            //                 to: parterName,
-            //                 sender: socket.id
-            //             });
-
-            // socket.emit("sdp", {
-            //   type: "video-answer",
-            //   description: pc[data.sender].localDescription,
-            //   to: data.sender,
-            //   sender: socket.id,
-            // });
+            //把发起者的描述信息通过Signal Server发送到接收者
             ws.send(
               JSON.stringify({
                 cmd: 3,
                 sendType: 0,
                 userId: message.chatId,
-                // chatId: useUserInfo.currentCantUser.hhxsUserId,
                 chatId: message.userId,
                 message: {
                   description: obj.pc[message.userId].localDescription,
@@ -94,59 +80,10 @@ const handleMessage = (e: any) => {
       });
     } else if (message.message.description.type === "answer") {
       //如果使应答类消息（那么接收到这个事件的是呼叫者）
-      console.log(obj.pc, message.userId, message.chatId);
-      console.log("222222222=============");
       let desc = new RTCSessionDescription(message.message.description);
       obj.pc[message.userId].setRemoteDescription(desc);
     }
-    // if (message.message.candidate) {
-    //   var candidate = new RTCIceCandidate(message.message.candidate);
-    //   //讲对方发来的协商信息保存
-    //   pc[message.message.sender].addIceCandidate(candidate).catch(); //catch err function empty
-    // }
   }
-  // socket.on("sdp", (data) => {
-  //   //如果时offer类型的sdp
-  //   if (data.description.type === "offer") {
-  //     //那么被呼叫者需要开启RTC的一套流程，同时不需要createOffer，所以第二个参数为false
-  //     StartCall(data.sender, false);
-  //     //把发送者(offer)的描述，存储在接收者的remoteDesc中。
-  //     let desc = new RTCSessionDescription(data.description);
-  //     //按1-13流程走的
-  //     pc[data.sender].setRemoteDescription(desc).then(() => {
-  //       pc[data.sender]
-  //         .createAnswer()
-  //         .then((answer) => {
-  //           return pc[data.sender].setLocalDescription(answer);
-  //         })
-  //         .then(() => {
-  //           socket.emit("sdp", {
-  //             type: "video-answer",
-  //             description: pc[data.sender].localDescription,
-  //             to: data.sender,
-  //             sender: socket.id,
-  //           });
-  //         })
-  //         .catch(); //catch error function empty
-  //     });
-  //   } else if (data.description.type === "answer") {
-  //     //如果使应答类消息（那么接收到这个事件的是呼叫者）
-  //     let desc = new RTCSessionDescription(data.description);
-  //     pc[data.sender].setRemoteDescription(desc);
-  //   }
-  // });
-  //
-  //如果是ice candidates的协商信息
-  // socket.on('ice candidates', (data) => {
-  //               console.log('ice candidate: ' + data.candidate);
-  //               //{ candidate: candidate, to: partnerName, sender: socketID }
-  //               //如果ice candidate非空（当candidate为空时，那么本次协商流程到此结束了）
-  //               if (data.candidate) {
-  //                   var candidate = new RTCIceCandidate(data.candidate);
-  //                   //讲对方发来的协商信息保存
-  //                   pc[data.sender].addIceCandidate(candidate).catch();//catch err function empty
-  //               }
-  //           })
 };
 // 通知
 let ws: any = null;
@@ -154,30 +91,6 @@ ws = useWebSocket(hhxsUserId, handleMessage);
 provide("ws", ws);
 
 // 通话
-
-//STUN,TURN服务器配置参数
-// const iceServer = {
-//   iceServers: [
-//     { urls: ["stun:ss-turn1.xirsys.com"] },
-//     {
-//       username:
-//         "CEqIDkX5f51sbm7-pXxJVXePoMk_WB7w2J5eu0Bd00YpiONHlLHrwSb7hRMDDrqGAAAAAF_OT9V0dWR1d2Vi",
-//       credential: "446118be-38a4-11eb-9ece-0242ac140004",
-//       urls: [
-//         "turn:ss-turn1.xirsys.com:80?transport=udp",
-//         "turn:ss-turn1.xirsys.com:3478?transport=udp",
-//       ],
-//     },
-//   ],
-// };
-
-// websocket测试地址："wss://testxr.piesat.cn/wss?userId={userId}"
-// webRTC 打洞服务器测试地址：
-// turn地址："turn:114.116.230.100:8879"
-// username："sl"
-// password："sl@hhxs.com"
-// stun地址："stun:114.116.230.100:8879"
-
 const iceServer = {
   iceServers: [
     { urls: ["stun:114.116.230.100:8879"] },
@@ -189,10 +102,6 @@ const iceServer = {
   ],
 };
 
-// function StartCall(userId: string, isOffer: boolean) {
-//   InitCamera();
-
-// }
 function StartCall() {
   const parterName: any = useUserInfo.currentCantUser.hhxsUserId;
   const createOffer = true;
@@ -234,12 +143,6 @@ function StartCall() {
         })
         .then(() => {
           //把发起者的描述信息通过Signal Server发送到接收者
-          // socket.emit("sdp", {
-          //   type: "video-offer",
-          //   description: obj.pc[parterName].localDescription,
-          //   to: parterName,
-          //   sender: useUserInfo.userBasic.hhxsUserId,
-          // });
           ws.send(
             JSON.stringify({
               cmd: 3,
@@ -257,12 +160,6 @@ function StartCall() {
 
   //当需要你通过信令服务器将一个ICE候选发送给另一个对等端时，本地ICE层将会调用你的 icecandidate 事件处理程序。有关更多信息，请参阅Sending ICE candidates 以查看此示例的代码。
   obj.pc[parterName].onicecandidate = ({ candidate }: any) => {
-    console.log("candidate", candidate);
-    // socket.emit("ice candidates", {
-    //   candidate: candidate,
-    //   to: parterName,
-    //   sender: useUserInfo.userBasic.hhxsUserId,
-    // });
     ws.send(
       JSON.stringify({
         cmd: 4,
@@ -284,53 +181,12 @@ function StartCall() {
       (item: any) => item.userId === parterName
     );
     if (curNameParter) {
-      // let parterName_video: any = document.getElementById(
-      //   `${parterName}-video`
-      // );
-      // parterName_video.srcObject = str;
       curNameParter.video = str;
-
-      console.log(obj.answerVideo);
-      console.log("============");
     } else {
       obj.zoomCameraStatus = 2;
       obj.answerVideo.push({ userId: parterName, video: str });
-      // console.log(obj.answerVideo);
-      // newVideo.autoplay = true;
-      // newVideo.controls = true;
-      // //newVideo.className = 'remote-video';
-      // newVideo.srcObject = str;
-      // obj.zoomCameraStatus = 2;
-      // let videosId: any = document.getElementById("videos");
-      // videosId.appendChild(newVideo);
     }
   };
-
-  // obj.pc[parterName].ontrack = (ev: any) => {
-  //   console.log(ev);
-  //   let str: any = ev.streams[0];
-
-  //   if (document.getElementById(`${parterName}-video`)) {
-  //     let parterName_video: any = document.getElementById(
-  //       `${parterName}-video`
-  //     );
-  //     parterName_video.srcObject = str;
-  //   } else {
-  //     obj.zoomCameraStatus = 2;
-  //     obj.answerVideo.push({ userId: parterName, video: str });
-
-  //     let newVideo: any = document.createElement("video");
-  //     newVideo.id = `${parterName}-video`;
-  //     newVideo.autoplay = true;
-  //     newVideo.controls = true;
-  //     //newVideo.className = 'remote-video';
-  //     newVideo.srcObject = str;
-  //     obj.zoomCameraStatus = 2;
-  //     obj.answerVideo.push(str);
-  //     let videosId: any = document.getElementById("videos");
-  //     videosId.appendChild(newVideo);
-  //   }
-  // };
 }
 
 //封装一部分函数
