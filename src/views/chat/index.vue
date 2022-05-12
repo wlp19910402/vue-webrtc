@@ -59,6 +59,7 @@ const handleMessage = (e: any) => {
       obj.isOpenCamera = true;
       obj.sendId = message.userId;
       obj.offerMessage = message;
+      obj.zoomCameraStatus = 0;
     } else if (message.message.description.type === "answer") {
       //如果使应答类消息（那么接收到这个事件的是呼叫者）
       let desc = new RTCSessionDescription(message.message.description);
@@ -68,10 +69,24 @@ const handleMessage = (e: any) => {
   }
   //监听视频被拒绝
   if (message.cmd === 5 && message.sendType === 0) {
+    // localStream = null;
+    // localVideoElm.value.srcObject = null;
+    // obj.isOpenCamera = false;
+    // obj.zoomCameraStatus = 0;
+    cameraHangUp(message.userId);
+  }
+};
+const cameraHangUp = (hangUpId) => {
+  obj.answerVideo = obj.answerVideo.filter(
+    (item: any) => item.userId != hangUpId
+  );
+  if (obj.answerVideo.length == 0) {
     localStream = null;
     localVideoElm.value.srcObject = null;
     obj.isOpenCamera = false;
     obj.zoomCameraStatus = 0;
+  
+    
   }
 };
 // 通知
@@ -203,7 +218,7 @@ function InitCamera({ parterName, isCreateOffer }: any) {
     getUserMedia(
       {
         video: true,
-        audio: false,
+        audio: true,
       },
       (stream: any) => {
         localStream = stream;
