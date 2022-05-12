@@ -346,6 +346,7 @@ const connectOfferColse = () => {
         class="qm-cur-user-video"
         ref="localVideoElm"
         autoplay
+        muted
       ></video>
       <div class="qm-answerer-videos-box" id="videos">
         <video
