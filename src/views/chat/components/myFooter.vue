@@ -46,10 +46,6 @@ const handleSendMessage = () => {
     });
   }
 };
-
-// onMounted(() => {
-//   InitCamera();
-// });
 </script>
 <template>
   <div class="d-flex align-center justify-center mt-4">
@@ -75,7 +71,12 @@ const handleSendMessage = () => {
       class="ml-8"
       :disabled="useUserInfo.currentCantUser.hhxsUserId === undefined"
       color="green"
-      @click="StartCall"
+      @click="
+        StartCall({
+          parterName: useUserInfo.currentCantUser.hhxsUserId.toString(),
+          isCreateOffer: true,
+        })
+      "
     >
       通话</el-button
     >
