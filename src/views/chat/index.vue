@@ -9,7 +9,7 @@ import myMain from "./components/myMain.vue";
 let navigator_dev: any = navigator;
 let useUserInfo: any = createStoreUserInfo();
 let hhxsUserId = localStorage.getItem("hhxsUserId")
-  ? localStorage.getItem("hhxsUserId").toString()
+  ? localStorage.getItem("hhxsUserId")?.toString()
   : "";
 useUserInfo.getUserAllList();
 
@@ -66,6 +66,13 @@ const handleMessage = (e: any) => {
       trunCandidate(hhxsUserId, message.userId);
     }
   }
+  //监听视频被拒绝
+  if (message.cmd === 5 && message.sendType === 0) {
+    localStream = null;
+    localVideoElm.value.srcObject = null;
+    obj.isOpenCamera = false;
+    obj.zoomCameraStatus = 0;
+  }
 };
 // 通知
 let ws: any = null;
@@ -84,7 +91,7 @@ const iceServer = {
   ],
 };
 let localStream: any = null;
-const trunCandidate = (userId, chatId) => {
+const trunCandidate = (userId: any, chatId: any) => {
   //当需要你通过信令服务器将一个ICE候选发送给另一个对等端时，本地ICE层将会调用你的 icecandidate 事件处理程序。有关更多信息，请参阅Sending ICE candidates 以查看此示例的代码。
   obj.pc[chatId].onicecandidate = ({ candidate }: any) => {
     ws.send(
@@ -111,9 +118,16 @@ function StartCall({ parterName, isCreateOffer }: any) {
     //否则需要重新启动摄像头并获取
     InitCamera({ parterName, isCreateOffer });
   }
-
   //如果是呼叫方,那么需要createOffer请求
   if (isCreateOffer) {
+    let msg = {
+      userAvatar: useUserInfo.userBasic.userAvatar,
+      hhxsUserId: useUserInfo.userBasic.hhxsUserId,
+      nickName: useUserInfo.userBasic.nickName,
+      msgTime: new Date().getTime(),
+      msgType: "video",
+      msgContent: "",
+    };
     //每当WebRTC基础结构需要你重新启动会话协商过程时，都会调用此函数。它的工作是创建和发送一个请求，给被叫方，要求它与我们联系。
     obj.pc[parterName].onnegotiationneeded = () => {
       //https://developer.mozilla.org/zh-CN/docs/Web/API/RTCPeerConnection/createOffer
@@ -132,6 +146,7 @@ function StartCall({ parterName, isCreateOffer }: any) {
               chatId: useUserInfo.currentCantUser.hhxsUserId.toString(),
               message: {
                 description: obj.pc[parterName].localDescription,
+                ...msg,
               },
             })
           );
@@ -249,6 +264,20 @@ function InitCamera({ parterName, isCreateOffer }: any) {
 const connectOffer = () => {
   InitCamera({ parterName: obj.sendId, isCreateOffer: false });
 };
+// 视频被拒绝
+const connectOfferColse = () => {
+  obj.isOpenCamera = false;
+  obj.zoomCameraStatus = 0;
+  ws.send(
+    JSON.stringify({
+      cmd: 5,
+      sendType: 0,
+      userId: obj.offerMessage.chatId,
+      chatId: obj.offerMessage.userId,
+      message: "",
+    })
+  );
+};
 </script>
 
 <template>
@@ -277,8 +306,31 @@ const connectOffer = () => {
       obj.zoomCameraStatus === 1 ? 'qm-video-user-zoom' : '',
     ]"
   >
-    <div v-if="obj.zoomCameraStatus === 0" class="qm-invite-btn-box">
-      <el-button class="qm-invite-btn" @click="connectOffer">接通</el-button>
+    <div
+      v-if="obj.zoomCameraStatus === 0 && obj.offerMessage.message"
+      class="qm-invite-btn-box"
+    >
+      <el-avatar
+        :size="88"
+        :src="
+          obj.offerMessage.message.userAvatar +
+          '?x-image-process=image/resize,w_126,limit_0'
+        "
+        fit="cover"
+      ></el-avatar>
+      <div class="mt-9">
+        {{ obj.offerMessage.message.nickName }}
+      </div>
+      <div class="mb-9">来电</div>
+      <div
+        style="width: 180px"
+        class="d-flex align-center justify-space-between pt-12"
+      >
+        <el-button class="qm-invite-close-btn" @click="connectOfferColse"
+          >拒绝</el-button
+        >
+        <el-button class="qm-invite-btn" @click="connectOffer">接通</el-button>
+      </div>
     </div>
     <div
       :class="[
@@ -289,7 +341,6 @@ const connectOffer = () => {
         obj.zoomCameraStatus === 1 ? 'qm-video-user-zoom' : '',
       ]"
     >
-      <div>111,{{ obj.zoomCameraStatus }}</div>
       <video
         @click="obj.zoomCameraStatus = 1"
         class="qm-cur-user-video"
@@ -324,11 +375,22 @@ const connectOffer = () => {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 14px;
+    color: #bbb;
+    .qm-invite-close-btn {
+      padding: 10px 20px;
+      background: red;
+      color: #fff;
+      border-radius: 20px;
+      border: none;
+    }
     .qm-invite-btn {
-      padding: 20px;
+      padding: 10px 20px;
       background: green;
       color: #fff;
       border-radius: 20px;
+      border: none;
     }
   }
   &.qm-video-box-active {
