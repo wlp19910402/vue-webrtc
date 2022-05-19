@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, reactive, provide, ref } from "vue";
+import { reactive, provide, ref } from "vue";
 import { useWebSocket } from "@/utils/websocket";
 import createStoreUserInfo from "@/store/userinfo";
 import myAside from "./components/myAside.vue";
@@ -69,26 +69,25 @@ const handleMessage = (e: any) => {
   }
   //监听视频被拒绝
   if (message.cmd === 5 && message.sendType === 0) {
-    // localStream = null;
-    // localVideoElm.value.srcObject = null;
-    // obj.isOpenCamera = false;
-    // obj.zoomCameraStatus = 0;
     cameraHangUp(message.userId);
   }
 };
-const cameraHangUp = (hangUpId) => {
+const cameraHangUp = (hangUpId: any) => {
   obj.answerVideo = obj.answerVideo.filter(
     (item: any) => item.userId != hangUpId
   );
   if (obj.answerVideo.length == 0) {
-    localStream = null;
+    if (localStream) {
+      localStream.getTracks().forEach((track: any) => {
+        track.stop();
+      });
+    }
     localVideoElm.value.srcObject = null;
     obj.isOpenCamera = false;
     obj.zoomCameraStatus = 0;
-  
-    
   }
 };
+
 // 通知
 let ws: any = null;
 ws = useWebSocket(hhxsUserId, handleMessage);
@@ -135,6 +134,10 @@ function StartCall({ parterName, isCreateOffer }: any) {
   }
   //如果是呼叫方,那么需要createOffer请求
   if (isCreateOffer) {
+    obj.offerMessage = {
+      userId: useUserInfo.currentCantUser.hhxsUserId.toString(),
+      chatId: hhxsUserId,
+    };
     let msg = {
       userAvatar: useUserInfo.userBasic.userAvatar,
       hhxsUserId: useUserInfo.userBasic.hhxsUserId,
@@ -293,6 +296,16 @@ const connectOfferColse = () => {
     })
   );
 };
+// 视频挂断
+const connectHangUp = () => {
+  obj.answerVideo = [];
+  localVideoElm.value.srcObject = null;
+  // 告诉对方已经挂断了
+  connectOfferColse();
+  localStream.getTracks().forEach((track: any) => {
+    track.stop();
+  });
+};
 </script>
 
 <template>
@@ -363,6 +376,9 @@ const connectOfferColse = () => {
         autoplay
         muted
       ></video>
+      <el-button class="qm-connect-hang-up" @click="connectHangUp"
+        >挂断</el-button
+      >
       <div class="qm-answerer-videos-box" id="videos">
         <video
           @click="obj.zoomCameraStatus = 2"
@@ -413,6 +429,19 @@ const connectOfferColse = () => {
     width: 100%;
     height: 100%;
   }
+  .qm-connect-hang-up {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 30px;
+    width: 56px;
+    height: 56px;
+    background: red;
+    color: #fff;
+    border-radius: 50%;
+    border: none;
+    z-index: 2;
+  }
   &.qm-video-user-zoom {
     .qm-cur-user-video {
       width: 100%;
@@ -423,6 +452,7 @@ const connectOfferColse = () => {
       z-index: 0;
       border: none;
     }
+
     .qm-answerer-videos-box {
       video {
         width: 200px;
