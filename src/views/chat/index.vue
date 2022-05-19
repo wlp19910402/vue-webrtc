@@ -25,7 +25,7 @@ const obj: any = reactive({
 });
 
 const handleMessage = (e: any) => {
-  // 新消息插入 
+  // 新消息插入
   let message = JSON.parse(e.data);
   if (message.cmd === 2 && message.sendType === 0) {
     const currchat = useUserInfo.chatList.find(
@@ -126,7 +126,7 @@ const {
       <div class="mt-9">
         {{ obj.offerMessage.message.nickName }}
       </div>
-      <div class="mb-9">来电</div>
+      <div class="mb-9">视频电话</div>
       <div
         style="width: 180px"
         class="d-flex align-center justify-space-between pt-12"

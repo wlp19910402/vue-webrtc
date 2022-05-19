@@ -26,7 +26,10 @@ const setUserInfo = (res: any) => {
     <el-row style="height: 60px">
       <!-- 我的信息 -->
       <div class="myinfo">
-        <el-avatar :src="useUserInfo.userBasic.userAvatar"></el-avatar>
+        <el-avatar
+          fit="cover"
+          :src="useUserInfo.userBasic.userAvatar"
+        ></el-avatar>
         <span class="ml-4">{{ useUserInfo.userBasic.nickName }}</span>
       </div>
     </el-row>
@@ -64,7 +67,13 @@ const setUserInfo = (res: any) => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+:deep(.el-avatar) {
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
 .myinfo {
   text-align: left;
   vertical-align: middle;
