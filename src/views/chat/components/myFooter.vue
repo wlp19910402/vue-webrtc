@@ -9,7 +9,7 @@ let useUserInfo: any = createStoreUserInfo();
 let hhxsUserId = localStorage.getItem("hhxsUserId");
 useUserInfo.getUserAllList();
 let props = defineProps<{
-  StartCall: (payload: any) => void;
+  openInitCamera: (payload: any) => void;
 }>();
 let msgInput = ref("");
 const ws: any = inject("ws");
@@ -72,7 +72,7 @@ const handleSendMessage = () => {
       :disabled="useUserInfo.currentCantUser.hhxsUserId === undefined"
       color="green"
       @click="
-        StartCall({
+        openInitCamera({
           parterName: useUserInfo.currentCantUser.hhxsUserId.toString(),
           isCreateOffer: true,
         })
