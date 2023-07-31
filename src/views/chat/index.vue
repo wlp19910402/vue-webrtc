@@ -18,7 +18,8 @@ let localVideoElm: any = ref(null);
 const obj: any = reactive({
   pc: [],
   isOpenCamera: false,
-  zoomCameraStatus: 0, //0是呼出按钮 1是自己的视频放大，2是回答者的视频放大
+  isOpenMic: false,
+  zoomCameraStatus: 0, // 0是呼出按钮 1是自己的视频放大，2是回答者的视频放大
   answerVideo: [],
   sendId: "",
   offerMessage: {},
@@ -27,50 +28,50 @@ const obj: any = reactive({
 const handleMessage = (e: any) => {
   // 新消息插入
   let message = JSON.parse(e.data);
-  if (message.cmd === 2 && message.sendType === 0) {
-    const currchat = useUserInfo.chatList.find(
-      (item: any) => item.hhxsUserId == message.userId
-    );
-    if (currchat) {
-      currchat.dataList.push(message.message);
-    } else {
-      useUserInfo.chatList = [
-        ...useUserInfo.chatList,
-        {
-          hhxsUserId: message.userId,
-          dataList: [message.message],
-        },
-      ];
+  if (message.sendType === 0) {
+    switch (message.cmd) {
+      case 2: // 新消息
+        let currchat = useUserInfo.chatList.find(
+          (item: any) => item.hhxsUserId == message.userId
+        );
+        if (currchat) {
+          currchat.dataList.push(message.message);
+        } else {
+          useUserInfo.chatList = [
+            ...useUserInfo.chatList,
+            {
+              hhxsUserId: message.userId,
+              dataList: [message.message],
+            },
+          ];
+        }
+        break;
+      case 4: // 如果是ice candidates的协商信息
+        if (message.message.candidate) {
+          var candidate = new RTCIceCandidate(message.message.candidate);
+          //讲对方发来的协商信息保存
+          obj.pc[message.userId].addIceCandidate(candidate).catch(); //catch err function empty
+        }
+        break;
+      case 3: //监听发送的sdp事件
+        //如果时offer类型的sdp
+        if (message.message.description.type === "offer") {
+          //那么被呼叫者需要开启RTC的一套流程，同时不需要createOffer，所以第二个参数为false
+          obj.isOpenCamera = true;
+          obj.sendId = message.userId;
+          obj.offerMessage = message;
+          obj.zoomCameraStatus = 0;
+        } else if (message.message.description.type === "answer") {
+          //如果使应答类消息（那么接收到这个事件的是呼叫者）
+          let desc = new RTCSessionDescription(message.message.description);
+          obj.pc[message.userId].setRemoteDescription(desc);
+          trunCandidate(hhxsUserId, message.userId);
+        }
+        break;
+      case 5: //监听视频被拒绝
+        cameraHangUp(message.userId);
+        break;
     }
-  }
-  // 如果是ice candidates的协商信息
-  if (message.cmd === 4 && message.sendType === 0) {
-    if (message.message.candidate) {
-      var candidate = new RTCIceCandidate(message.message.candidate);
-      //讲对方发来的协商信息保存
-      obj.pc[message.userId].addIceCandidate(candidate).catch(); //catch err function empty
-    }
-  }
-
-  //监听发送的sdp事件
-  if (message.cmd === 3 && message.sendType === 0) {
-    //如果时offer类型的sdp
-    if (message.message.description.type === "offer") {
-      //那么被呼叫者需要开启RTC的一套流程，同时不需要createOffer，所以第二个参数为false
-      obj.isOpenCamera = true;
-      obj.sendId = message.userId;
-      obj.offerMessage = message;
-      obj.zoomCameraStatus = 0;
-    } else if (message.message.description.type === "answer") {
-      //如果使应答类消息（那么接收到这个事件的是呼叫者）
-      let desc = new RTCSessionDescription(message.message.description);
-      obj.pc[message.userId].setRemoteDescription(desc);
-      trunCandidate(hhxsUserId, message.userId);
-    }
-  }
-  //监听视频被拒绝
-  if (message.cmd === 5 && message.sendType === 0) {
-    cameraHangUp(message.userId);
   }
 };
 ws = useWebSocket(hhxsUserId, handleMessage);
@@ -104,6 +105,65 @@ const {
       </el-footer>
     </el-container>
   </el-container>
+  <!-- 语音电话 -->
+  <div :class="['qm-video-box', obj.isOpenMic ? 'qm-video-box-active' : '']">
+    <div
+      v-if="obj.zoomCameraStatus === 0 && obj.offerMessage.message"
+      class="qm-invite-btn-box"
+    >
+      <el-avatar
+        :size="88"
+        :src="
+          obj.offerMessage.message.userAvatar +
+          '?x-image-process=image/resize,w_126,limit_0'
+        "
+        fit="cover"
+      ></el-avatar>
+      <div class="mt-9">
+        {{ obj.offerMessage.message.nickName }}
+      </div>
+      <div class="mb-9">语音电话</div>
+      <div
+        style="width: 180px"
+        class="d-flex align-center justify-space-between pt-12"
+      >
+        <el-button class="qm-invite-close-btn" @click="connectOfferColse"
+          >拒绝</el-button
+        >
+        <el-button class="qm-invite-btn" @click="connectOffer">接通</el-button>
+      </div>
+    </div>
+    <div
+      :class="[
+        'qm-video-box',
+        obj.zoomCameraStatus === 1 || obj.zoomCameraStatus === 2
+          ? 'qm-video-box-active'
+          : '',
+        obj.zoomCameraStatus === 1 ? 'qm-video-user-zoom' : '',
+      ]"
+    >
+      <video
+        @click="obj.zoomCameraStatus = 1"
+        class="qm-cur-user-video"
+        ref="localVideoElm"
+        autoplay
+        muted
+      ></video>
+      <el-button class="qm-connect-hang-up" @click="connectHangUp"
+        >挂断</el-button
+      >
+      <div class="qm-answerer-videos-box" id="videos">
+        <video
+          @click="obj.zoomCameraStatus = 2"
+          v-for="item in obj.answerVideo"
+          :key="item.userId"
+          :srcObject="item.video"
+          autoplay
+        ></video>
+      </div>
+    </div>
+  </div>
+  <!-- 视频电话 -->
   <div
     :class="[
       'qm-video-box',

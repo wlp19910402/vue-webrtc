@@ -80,6 +80,19 @@ const handleSendMessage = () => {
     >
       通话</el-button
     >
+    <el-button
+      class="ml-8"
+      :disabled="useUserInfo.currentCantUser.hhxsUserId === undefined"
+      color="green"
+      @click="
+        openInitCamera({
+          parterName: useUserInfo.currentCantUser.hhxsUserId.toString(),
+          isCreateOffer: true,
+        })
+      "
+    >
+      语音</el-button
+    >
   </div>
 </template>
 
